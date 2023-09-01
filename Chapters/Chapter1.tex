@@ -1,0 +1,114 @@
+\chapter{Introduction}
+
+\section{Writing a thesis}
+Writing a thesis is a lengthy process, often requiring multiple redrafts and revisions.
+
+Drafts should be provided and reviewed on a regular basis to keep up momentum as the submission deadline approaches. Please ensure that all required milestones and program requirements (e.g., professional development hours) have been completed before progressing with your submission.
+
+The information below has been provided to you to make your experience as easy as possible. You may also like to refer to the Graduate Research Thesis Examination Procedures for further insight into the thesis examination process.
+
+\subsection{What format the thesis will be presented}
+The first thing to consider is in what format the thesis will be presented.
+We recommend students and main supervisors discuss this as early as possible, and jointly agree on the most appropriate option:
+
+Traditional thesis: A similar format to research reports and papers where the research question is proposed, methodology is described and the results are discussed and conclusions established.
+
+Thesis including published works: Overall format is the same as a traditional thesis but particular chapters will include any submitted publications. Some Faculties have their own criteria for what can be included in this format.
+
+All theses must use the approved thesis preliminary pages which includes compulsory information such as copyright and authorship declarations. If these pages are not presented correctly, the thesis will not be dispatched to the examiners and the relevant sections will need to be amended.
+
+\subsection{Examiners}
+At Monash each graduate research student has a supervisory team. Of this group, the main supervisor is responsible for approaching potential examiners for their students' thesis. Initial discussions normally take place at the student's final milestone review and it is recommended that examiners are approached at least 4-6 weeks before expected submission.
+
+An email template is available for use when inviting potential examiners to examine a thesis.
+
+For students enrolled in a Live Music or Theatre Performance degree, the main supervisor will also need to complete a Nomination of Examiners form. This form will require the approval of the Program Director (or delegate) and the Monash Graduate Research Office prior to the live performance. For further information please contact the Faculty of Arts.
+
+In addition, when considering appropriate examiners, please note that if an examiner is subject to Sanctions laws, we are unable to provide payment for their thesis examination.
+
+\subsection{Conflict of interest}
+There are a range of circumstances that could result in a conflict of interest, potentially restricting the objectivity of the examiners.
+
+Some examples of what we consider conflicts of interest are:
+\begin{itemize}
+\item Involvement in the student's research, including supervision of the candidate in field or laboratory work or elsewhere during candidature.
+\item Previous work in the same department within an institution as the candidate.
+\item A previous appointment as an academic staff member at Monash University, including an adjunct academic appointment, during the student’s period of candidature.
+\item Holding the position of emeritus or adjunct professor at Monash.
+\item Substantial contact with the candidate in any other circumstance which might jeopardise the independence of the examination.
+\item Being a close associate (spouse/partner, other relative, friend or business partner) of either the candidate or the supervisor of the candidate.
+\end{itemize}
+There is a more comprehensive list of grounds for conflicts of interest which you may wish to review.
+
+
+\section{Thesis including Published Works}
+All doctoral and research master's students are permitted to submit a thesis including published works, in accordance with section 1.9 of the Graduate Research Thesis Examination Procedures. The thesis including published works is not a different degree; rather, it is a thesis format that includes papers that have been submitted, or accepted, for publication, during the course of the student's enrolment in the relevant graduate research degree at Monash.
+
+The thesis must reflect a sustained and cohesive theme, and framing or substantial linking text is normally required in introducing the research and linking the chapter/papers/manuscripts. The papers do not have to be rewritten for the thesis. For guidance, refer to Text Framing the Publications (as below).
+
+Whether the papers are required to have been published, accepted for publication, or only submitted for publication varies across faculties (see Faculty Requirements below). We advise you to consult good examples of theses including published works in your discipline. Your academic unit or school should have copies of all doctoral and research master's theses available for consultation. Workshops on the thesis including published works are also run through the Skills Essentials series, if you require more information.
+
+
+\section{The maximum word length}
+For references see \href{http://www.monash.edu/__data/assets/pdf_file/0011/911882/Graduate-Research-Thesis-Examination-Procedures.pdf}{Graduate Research Thesis Examination Procedures} 
+
+PhD: 80,000 words,  100,000 words for students enrolled prior to 1 January 2015
+
+MPhil: 35,000 words, 50,000 words for students enrolled prior to 1 January 2015.
+
+\section{Using Figures and Tables, and other commands}
+
+We have defined several commands in thesis.cls file for easier usage:
+\begin{verbatim}
+\newcommand{\fref}[1]{Figure~\ref{#1}}
+\newcommand{\tref}[1]{Table~\ref{#1}}
+\newcommand{\eref}[1]{Equation~\ref{#1}}
+\newcommand{\cref}[1]{Chapter~\ref{#1}}
+\newcommand{\sref}[1]{Section~\ref{#1}}
+\newcommand{\aref}[1]{Appendix~\ref{#1}}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{.85}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\dbltopfraction}{.85}
+\renewcommand{\floatpagefraction}{0.75}
+\renewcommand{\dblfloatpagefraction}{.75}
+\end{verbatim}
+
+You can use \textit{fref} and \textit{tref} to refer a figure and table, such as \fref{fig.demo1} and \tref{table.demo1}. Refer a citation like this \cite{Reference1}. You can cite multiple references once, like this \cite{Reference1,Reference2,Reference3}.
+
+
+
+\begin{figure}
+\centering
+  \includegraphics[height=5cm]{Figures/crest.jpg}%
+  \caption{My Picture Demo\label{fig.demo1}}
+\end{figure}
+
+\begin{table}[]
+\caption{Table Demo.\label{table.demo1}}
+\centering
+\begin{tabular}{|c|c|c|}
+\hline
+Description & Images &  \\ \hline
+Training & Taking 3 knowns + 1 known unknown randomly & 2900 \\ \hline
+Gallery & Taking 3 images of knowns randomly & 1830 \\ \hline
+Probe C & C=S & 4903 \\ \hline
+Probe O1 & O1 & 6264 \\ \hline
+Probe O2 & O2 & 8972 \\ \hline
+Probe O3 & O3 & 10333 \\ \hline
+\end{tabular}
+\end{table}
+
+\section{A Section}
+
+Quisque tristique urna in lorem laoreet at laoreet quam congue. Donec dolor turpis, blandit non imperdiet aliquet, blandit et felis. In lorem nisi, pretium sit amet vestibulum sed, tempus et sem. Proin non ante turpis. Nulla imperdiet fringilla convallis. Vivamus vel bibendum nisl. Pellentesque justo lectus, molestie vel luctus sed, lobortis in libero. Nulla facilisi. Aliquam erat volutpat. Suspendisse vitae nunc nunc. Sed aliquet est suscipit sapien rhoncus non adipiscing nibh consequat. Aliquam metus urna, faucibus eu vulputate non, luctus eu justo.
+
+\subsection{A Subsection}
+
+Donec urna leo, vulputate vitae porta eu, vehicula blandit libero. Phasellus eget massa et leo condimentum mollis. Nullam molestie, justo at pellentesque vulputate, sapien velit ornare diam, nec gravida lacus augue non diam. Integer mattis lacus id libero ultrices sit amet mollis neque molestie. Integer ut leo eget mi volutpat congue. Vivamus sodales, turpis id venenatis placerat, tellus purus adipiscing magna, eu aliquam nibh dolor id nibh. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed cursus convallis quam nec vehicula. Sed vulputate neque eget odio fringilla ac sodales urna feugiat.
+
+\section{Another Section}
+
+Phasellus nisi quam, volutpat non ullamcorper eget, congue fringilla leo. Cras et erat et nibh placerat commodo id ornare est. Nulla facilisi. Aenean pulvinar scelerisque eros eget interdum. Nunc pulvinar magna ut felis varius in hendrerit dolor accumsan. Nunc pellentesque magna quis magna bibendum non laoreet erat tincidunt. Nulla facilisi.
+
+Duis eget massa sem, gravida interdum ipsum. Nulla nunc nisl, hendrerit sit amet commodo vel, varius id tellus. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc ac dolor est. Suspendisse ultrices tincidunt metus eget accumsan. Nullam facilisis, justo vitae convallis sollicitudin, eros augue malesuada metus, nec sagittis diam nibh ut sapien. Duis blandit lectus vitae lorem aliquam nec euismod nisi volutpat. Vestibulum ornare dictum tortor, at faucibus justo tempor non. Nulla facilisi. Cras non massa nunc, eget euismod purus. Nunc metus ipsum, euismod a consectetur vel, hendrerit nec nunc.
