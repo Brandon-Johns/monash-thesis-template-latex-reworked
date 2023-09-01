@@ -87,7 +87,7 @@
 %% Tables (required for the table in Preamble/Declaration_publications.tex)
 %%****************************************
 \usepackage{silence}
-\WarningFilter{latex}{You have requested package `lib/nicematrix',} %% Using local ver until overleaf updates theirs
+\WarningFilter{latex}{You have requested package `lib/nicematrix',} %% Using local as the latest version is not avaliable on overleaf
 \usepackage{lib/nicematrix} %% Tables, matrices, etc.
 
 
@@ -146,7 +146,7 @@
 %%      Line-spacing: I suggest that all 3 commands have the same value
 \setstretch{1.3} %% Normal text
 \captionsetup{font={stretch=1.3}} %% Figures
-\subcaptionsetup{font={stretch=1.3}} %% SubFigures
+\captionsetup[sub]{font={stretch=1.3}} %% SubFigures
 
 %% ACTION
 %%      Update each of the preliminary pages
@@ -208,7 +208,7 @@
 %% I suggest that all 3 commands have the same value
 %\setstretch{1.3} %% Normal text
 %\captionsetup{font={stretch=1.3}} %% Figures
-%\subcaptionsetup{font={stretch=1.3}} %% SubFigures
+%\captionsetup[sub]{font={stretch=1.3}} %% SubFigures
 
 %% ACTION
 %%      The format of the chapters is up to you. I have added a rough outline and example content. You may alter this.
