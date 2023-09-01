@@ -1,203 +1,261 @@
-%% Modified by James Saunderson to comply with thesis requirements for Monash University.
-%%
-%% Modified by Ricardo Garcia-Rosas to satisfy the rules established by the University of Melbourne's Research Higher Degrees Committee as of 4th of June 2019.
-%% Guidelines can be found at: https://gradresearch.unimelb.edu.au/__data/assets/pdf_file/0004/2027839/Preparation-of-GR-theses-rules.pdf
-%%
-%% ----------------------------------------------------------------
-%% Thesis.tex -- MAIN FILE (the one that you compile with LaTeX)
-%% ----------------------------------------------------------------
 
-% Set up the document
-\documentclass[a4paper, 11pt, oneside]{Thesis}  % Use the "Thesis" style, based on the ECS Thesis style by Steve Gunn
-%
-% Put your figures in this directory
-\graphicspath{Figures/}  % Location of the graphics files (set up for graphics to be in PDF format)
-%
+%% MAIN FILE
+%% This is the file which you compile with LaTeX
 
-% Include any extra LaTeX packages required
-\usepackage[square, numbers, comma, sort&compress]{natbib}  % Use the "Natbib" style for the references in the Bibliography
-\usepackage{verbatim}  % Needed for the "comment" environment to make LaTeX comments
-\usepackage{array} % for the table on page v.
-\usepackage{multirow} % for the table on page v.
-\usepackage{multicol} % for the table on page v.
-\usepackage[table]{xcolor} % for the table on page v.
-\usepackage{vector}  % Allows "\bvec{}" and "\buvec{}" for "blackboard" style bold vectors in maths
-\usepackage{pdfpages} % allows entire pdf files to be included in the document (for thesis including published works)
-\hypersetup{urlcolor=blue, colorlinks=true}  % Colours hyperlinks in blue, but this can be distracting if there are many links.
+%% INSTRUCTIONS
+%%      The places marked with ACTION, require your action
+%%      The places marked with OPTIONAL, highlight key places where action can be taken
+%%      Other comments are left to provide for those who wish to modify the template
 
-%% ----------------------------------------------------------------
-% include any additional macros here
-\newcommand\bcwt[1]{\cellcolor{black}\bfseries\textcolor{white}{#1}} % black cells white text for table on page v.
-%% ----------------------------------------------------------------
+%% Comments with '%% ...' are comments
+%% Comments with '% ...' are deactivated code, which you may wish to uncomment
+
+
+%%********************************************************************************
+%% Core headers
+%%****************************************
+%% Using the class Thesis.cls, which is included with this template
+%% Thesis.cls has been modified by many, based on the ECS Thesis style originally by Steve Gunn
+\documentclass{Thesis}
+
+%% Font Choice
+%\usepackage[lining]{nunito}
+
+
+%%********************************************************************************
+%% Embed pdfs (part 1)
+%%****************************************
+\usepackage{pdfpages} %% Embed pdfs
+
+
+%%********************************************************************************
+%% Embed pdfs (part 2) (OPTIONAL)
+%%****************************************
+%% TO USE: Manual actions are required. See instructions below
+%% TO SKIP: No action required. Leave everything as is or comment it out
+
+%% PURPOSE
+%%      By using the package `pdfpages' to embed this pdf into the thesis, all the hyperlinks become no longer clickable.
+%%      To reinsert the links, the package `pax' can be used
+
+%% INSTRUCTIONS
+%%      Stage 1 (only needs to be run once)
+%%      Compile with LuaLaTeX
+%%      Then Rename the output files from *.newpax to *.pax
+%%      For me, some of the links were broken. Either delete them from the pax file, or manually fix them in the pax file
+%%      Stage 2 (run on every compile)
+%%      Compile with pdflatex as normal
+%% Notes
+%%      For stage 1, the file extension should not be included
+%%      Stage 2 doesn't like the pdfs sitting in subfolders
+
+%% (STAGE 1) Extract links
+\usepackage{ifluatex,etoolbox}
+\ifluatex
+    \directlua{require("newpax")}
+    \directlua{
+        newpax.writenewpax("MyPublishedArticle1")
+        newpax.writenewpax("MyPublishedArticle2")
+    }
+\fi
+
+%% (STAGE 2) Insert links
+%% newpax requires the package pdfmanagement-testphase
+%% But this is not compatible with the pdfx package
+%% => Using the output of nexpax with pax
+%% The following is copied from the newpax documentation
+\ifluatex
+    \usepackage{pdftexcmds}
+    \makeatletter
+    \let\pdfstrcmp\pdf@strcmp
+    \let\pdfescapename\pdf@escapename
+    \makeatother
+    \usepackage{luatex85}
+\fi
+\usepackage{pax}
+%% Correct a bug in pax affecting clipping
+\makeatletter
+\patchcmd\PAX@pdf@annot{\PAX@pagellx}{\PAX@page@llx}{}{\fail}
+%% Allow hashes and percent in the pax file
+\patchcmd\PAX@AddAnnots{\InputIfFileExists\PAX@file{}{\typeout{* Missing: \PAX@file}}}
+{\begingroup \catcode`\#=12 \catcode`\%=12
+\InputIfFileExists\PAX@file{}{\typeout{* Missing: \PAX@file}}\endgroup}{}{\fail}
+\makeatother
+
+
+%%********************************************************************************
+%% Tables (required for the table in Preamble/Declaration_publications.tex)
+%%****************************************
+\usepackage{silence}
+\WarningFilter{latex}{You have requested package `lib/nicematrix',} %% Using local ver until overleaf updates theirs
+\usepackage{lib/nicematrix} %% Tables, matrices, etc.
+
+
+%%********************************************************************************
+%% Bibliography
+%%****************************************
+\usepackage[style=numeric, sorting=none, isbn=false, url=true,sortcites=true,maxbibnames=99]{biblatex}
+\renewcommand*{\bibfont}{\small}
+
+%% Prevent "et al." in \fullcite https://tex.stackexchange.com/a/267089
+\preto\fullcite{\AtNextCite{\defcounter{maxnames}{99}}}
+
+%% ACTION: Include your references in the .bib file
+\addbibresource{Bibliography/Bibliography.bib}
+
+
+%%********************************************************************************
+%% OPTIONAL: Add your own packages and commands here
+%%****************************************
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Start
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
-\frontmatter      % Begin Roman style (i, ii, iii, iv...) page numbering
 
-%
-\UNIVERSITY{{Monash University}}
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Update your faculty here:
-\school{{Faculty of Engineering}}
-% update your department/school here
-\department{{Department of \ldots}}
-% this is the year of submission
-\gradtime{{2022}}
-% degree the thesis is for (Master of Engineering Science or Doctor of Philosophy)
-\degree{Master of Engineering Science}
-% degrees currently held by the student
-\studentdegree{Student's academic degrees}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ACTION: Add your details here
+%%      These are used in the title page, preliminary pages, and pdf metadata
+\thesisUniversity{Monash University}
+\thesisSchool{My Faculty}
+\thesisDepartment{My Department} %% 'Department of ...' / 'School of ...'
+\thesisGradtime{year} %% Year of thesis submission
+\thesisDegree{Doctor of Philosophy} %% `Doctor of Philosophy' or `Master of ...'
+\thesisPriorDegrees{My previous academic degrees}
+\thesisTitle{My Thesis Title is Long:\\So I added A Line Break For Style}
+\thesisAuthor{My Full Name}
 
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Set up the Title Page
-% Change your thesis title and your information here
-\title  {Thesis Title}
-\authors  {\texorpdfstring
-            {\href{your web site or email address}{Author's full name}}
-            {Author's full name}
-            }
+%% ACTION: Add your details here
+%%      The following are used in the pdf's metadata only
+%%      Use the exact formatting, otherwise other programs won't recognise it.
+\thesisPublicationType{phdthesis} %% Use a Bibtex entry type `phdthesis' or `mastersthesis'
+\thesisLanguage{en-AU} %% Use an `IETF language tag' https://en.wikipedia.org/wiki/IETF_language_tag
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
+\makemetadata
 \maketitle
-%% ----------------------------------------------------------------
 
-\setstretch{1.3}  % It is better to have smaller font and larger line spacing than the other way round
 
-% Define the page headers using the FancyHdr package and set up for one-sided printing
-\fancyhead{}  % Clears all page headers and footers
-\rhead{\thepage}  % Sets the right side header to show the page number
-\lhead{}  % Clears the left side page header
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Header/footer style
+\frontmatter %% Begin Roman style (i, ii, iii, iv...) page numbering
+\assignpagestyle{\chapter}{preliminarypages}
+\pagestyle{preliminarypages}
 
-\pagestyle{fancy}  % Finally, use the "fancy" page style to implement the FancyHdr headers
+%% OPTIONAL
+%%      Line-spacing: I suggest that all 3 commands have the same value
+\setstretch{1.3} %% Normal text
+\captionsetup{font={stretch=1.3}} %% Figures
+\subcaptionsetup{font={stretch=1.3}} %% SubFigures
 
-%% ----------------------------------------------------------------
-% The copyright Page
+%% ACTION
+%%      Update each of the preliminary pages
 \input{Preamble/copyright.tex}
-\clearpage  % copyright ended, start a new page
-
 \input{Preamble/Abstract.tex}
-
-\clearpage  % Abstract ended, start a new page
-
-%% ----------------------------------------------------------------
-% Publications Page 
 \input{Preamble/Publications.tex}
-\clearpage  % Declaration ended, now start a new page
-
-%% ----------------------------------------------------------------
-% Declaration of publications Page required for the Thesis, your institution may give you a different text to place here
 \input{Preamble/Declaration_publications.tex}
-\clearpage  % Declaration ended, now start a new page
-
-
-
-
-%% ----------------------------------------------------------------
-% The Acknowledgements page, for thanking everyone
-\setstretch{1.3}  % Reset the line-spacing to 1.3 for body text (if it has changed)
 \input{Preamble/Acknowledgements.tex}
-\clearpage  % End of the Acknowledgements
-%% ----------------------------------------------------------------
 
-\pagestyle{fancy}  %The page style headers have been "empty" all this time, now use the "fancy" headers as defined before to bring them back
+%% ACTION
+%%      Comment out any of the following to remove the section
+%%      Otherwise, update the abbreviations, constants, etc.
 
+\tableofcontents
 
-%% ----------------------------------------------------------------
-\lhead{\emph{Contents}}  % Set the left side page header to "Contents"
-\tableofcontents  % Write out the Table of Contents
+\listoffigures
 
-%% ----------------------------------------------------------------
-\lhead{\emph{List of Figures}}  % Set the left side page header to "List if Figures"
-\listoffigures  % Write out the List of Figures
+\listoftables
 
-%% ----------------------------------------------------------------
-\lhead{\emph{List of Tables}}  % Set the left side page header to "List of Tables"
-\listoftables  % Write out the List of Tables
-
-%% ----------------------------------------------------------------
-\setstretch{1.5}  % Set the line spacing to 1.5, this makes the following tables easier to read
-\clearpage  % Start a new page
-\lhead{\emph{Abbreviations}}  % Set the left side page header to "Abbreviations"
-\listofsymbols{ll}  % Include a list of Abbreviations (a table of two columns)
-{
-% \textbf{Acronym} & \textbf{W}hat (it) \textbf{S}tands \textbf{F}or \\
-\textbf{LAH} & \textbf{L}ist \textbf{A}bbreviations \textbf{H}ere \\
-
+\listOfAbbreviations{ll}{
+    \textbf{BIM} & Building Information Modelling\\
+    \textbf{CAD} & Computer Aided Design\\
+    \textbf{DAE} & Differential Algebraic Equation\\
+    \textbf{DOF} & Degrees of Freedom\\
+    \textbf{IMU} & Inertial Measurement Unit\\
+    \textbf{LiDAR} & Light Detection and Ranging\\
+    \textbf{NIR} & Near Infrared\\
+    \textbf{ODE} & Ordinary Differential Equation\\
 }
 
-%% ----------------------------------------------------------------
-\clearpage  % Start a new page
-\lhead{\emph{Constants}}  % Set the left side page header to "Physical Constants"
-\listofconstants{lrcl}  % Include a list of Physical Constants (a four column table)
-{
-% Constant Name & Symbol & = & Constant Value (with units) \\
-Speed of Light & $c$ & $=$ & $2.997\ 924\ 58\times10^{8}\ \mbox{ms}^{-2}$\\
-
+\listOfConstants{lrcl}{
+    Speed of Light & $c$ & $=$ & $2.997\ 924\ 58\times10^{8}\ \mbox{ms}^{-2}$\\
 }
 
-%% ----------------------------------------------------------------
-\clearpage  %Start a new page
-\lhead{\emph{Symbols}}  % Set the left side page header to "Symbols"
-\listofnomenclature{lll}  % Include a list of Symbols (a three column table)
-{
-% symbol & name & unit \\
-$a$ & distance & m \\
-$P$ & power & W (Js$^{-1}$) \\
-& & \\ % Gap to separate the Roman symbols from the Greek
-$\omega$ & angular frequency & rads$^{-1}$ \\
+\listOfNomenclature{lll}{%% symbol & name & unit
+    $a$ & distance & m \\
+    $P$ & power & W (Js$^{-1}$) \\
+    & & \\
+    $\omega$ & angular frequency & rads$^{-1}$ \\
 }
-%% ----------------------------------------------------------------
-% End of the pre-able, contents and lists of things
 
 
-%% ----------------------------------------------------------------
-\mainmatter	  % Begin normal, numeric (1,2,3...) page numbering
-\pagestyle{fancy}  % Return the page headers back to the "fancy" style
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Header/footer style
+\mainmatter %% Begin normal, numeric (1,2,3...) page numbering
+\assignpagestyle{\chapter}{corefirst}
+\pagestyle{core}
+\renewcommand{\chaptermark}[1]{ \markboth{\ $\vert$\ #1}{\thesubsection} }
+\renewcommand{\sectionmark}[1]{ \markright{\thesubsection} }
+\renewcommand{\subsectionmark}[1]{ \markright{\thesubsection} }
+\renewcommand{\subsubsectionmark}[1]{}
+\renewcommand{\paragraphmark}[1]{}
+\renewcommand{\subparagraphmark}[1]{}
 
-% Include the chapters of the thesis, as separate files
-% Just uncomment the lines as you write the chapters
 
-\fancyhead{}  % Clears all page headers and footers
-\rhead{\thepage}  % Sets the right side header to show the page number
-\lhead{}  % Clears the left side page header
-\input{Chapters/Chapter1} % Introduction
+%% OPTIONAL
+%% Line-spacing, if you want different line-spacing from the preliminary pages
+%% I suggest that all 3 commands have the same value
+%\setstretch{1.3} %% Normal text
+%\captionsetup{font={stretch=1.3}} %% Figures
+%\subcaptionsetup{font={stretch=1.3}} %% SubFigures
 
-% the following chapter shows how to include an external pdf as a chapter after a preamble page.
-\input{Chapters/Chapter2} 
+%% ACTION
+%%      The format of the chapters is up to you. I have added a rough outline and example content. You may alter this.
+%%      Add your content to the chapters
+%%      Delete any unused chapters
+\input{Chapters/ChapterExample}
+\input{Chapters/Chapter1}
+\input{Chapters/Chapter2}
+\input{Chapters/Chapter3}
+\input{Chapters/Chapter4}
+\input{Chapters/Chapter5}
+\clearpage %% Start a new page
 
-%\input{Chapters/Chapter3} 
 
-%\input{Chapters/Chapter4} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Header/footer style
+\appendix
+\assignpagestyle{\chapter}{appfirst}
+\pagestyle{app}
+\renewcommand{\chaptermark}[1]{ \markboth{\ $\vert$\ #1}{\thesubsection} }
+\renewcommand{\sectionmark}[1]{ \markright{\thesubsection} }
+\renewcommand{\subsectionmark}[1]{ \markright{\thesubsection} }
+\renewcommand{\subsubsectionmark}[1]{}
+\renewcommand{\paragraphmark}[1]{}
+\renewcommand{\subparagraphmark}[1]{}
 
-%\input{Chapters/Chapter5} 
+%% ACTION
+%%      Add you content to the appendices
+%%      Delete any unused chapters
+%%      If you have no appendices, it is sufficient to delete only the \input{} lines
+\input{Appendices/AppendixA}
+\input{Appendices/AppendixB}
+\clearpage %% Start a new page
 
-%\input{Chapters/Chapter6} 
 
-%\input{Chapters/Chapter7} 
-
-%% ----------------------------------------------------------------
-% Now begin the Appendices, including them as separate files
-
-\addtocontents{toc}{\vspace{2em}} % Add a gap in the Contents, for aesthetics
-
-\appendix % Cue to tell LaTeX that the following 'chapters' are Appendices
-
-\input{Appendices/AppendixA}	% Appendix Title
-
-%\input{Appendices/AppendixB} % Appendix Title
-
-%\input{Appendices/AppendixC} % Appendix Title
-
-\addtocontents{toc}{\vspace{2em}}  % Add a gap in the Contents, for aesthetics
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Header/footer style
 \backmatter
+\assignpagestyle{\chapter}{bibfirst}
+\pagestyle{bib}
 
-%% ----------------------------------------------------------------
 \label{Bibliography}
-\lhead{\emph{Bibliography}}  % Change the left side page header to "Bibliography"
-\bibliographystyle{unsrtnat}  % Use the "unsrtnat" BibTeX style for formatting the Bibliography
-\bibliography{Bibliography}  % The references (bibliography) information are stored in the file named "Bibliography.bib"
+\printbibliography
 
-\end{document}  % The End
-%% ----------------------------------------------------------------
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}

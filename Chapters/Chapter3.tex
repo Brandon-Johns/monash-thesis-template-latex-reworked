@@ -1,0 +1,45 @@
+\chapter{My First Published Article} \label{chap:article1}
+\begin{displayquote} \emph{%%
+	This chapter embeds a copy of my publication \cite{example3}, which is distributed under the \href{https://creativecommons.org/licenses/by/4.0/}{Creative Commons CC BY 4.0 license}.
+} \end{displayquote}
+
+%% Intro & link to objectives
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{The Title of My First Published Article}
+List of Amendments to \cite{example3}
+\begin{itemize}[topsep=0pt,beginpenalty=10000,first=\interlinepenalty10000]
+	\item Equation 6 contains a typographical error, in which ${}^O\text{\textbf{p}}_i$ should be ${}^O\dot{\text{\textbf{p}}}_i$
+\end{itemize}
+
+%% The following embedded document represents your published article.
+\includepdf[pages={-},pagecommand={},offset=0mm 10mm]{MyPublishedArticle1.pdf}
+
+%% NOTE 1
+%% The article is being embedded into an A4 document.
+%% If the article is not A4, then it will be shrunk to fit and centred in the page.
+%% The offset parameter can move from the default position
+%% => If the thesis footer overlaps the included pdf, then try changing the scale and offset
+%% e.g.
+%% \includepdf[pages={-},pagecommand={},scale=0.95,offset=0mm 5mm]{MyPublishedArticle1.pdf}
+
+%% NOTE 2
+%% By using the package `pdfpages' to embed this pdf into the thesis, all the hyperlinks become no longer clickable.
+%% To reinsert the links, the package `pax' can be used
+%% Reinserting the links requires some manual work, and the `pax' is not flawless.
+%% Follow the instructions in Thesis.tex, and be sure to test that it works.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Outlook}
+%% Link results to objectives
+The outcomes of this work ...
+
+The work finds that ...
+
+The next chapter applies these results to ...
+

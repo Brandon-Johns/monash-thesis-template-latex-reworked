@@ -1,4 +1,23 @@
 %%###############################################################################
+%% Modified by Brandon Johns in 2023
+%% This version is not directly compatible with the previous versions. The whole set of files go together
+%%
+%% Key changes
+%%   Lightly restyled preliminary pages (Still compliant with Monash University requirements)
+%%   Added support for subsubsection to subparagraph depth
+%%   Updated to modern packages which give better control: vmargin->geometry, natbib->biblatex, etc.
+%%   Restyled headings, footers, contents, line/paragraph spacing, float placement
+%%   Disabled hyphenation
+%%   Removed double-sided-page mode (sorry, but it's too complicated for me to bother with)
+%%   Reorganised this file and added comments
+%%   Made the output PDF/A-2u compliant (well, somewhat compliant: figures and maths are like ugh)
+%%   Added ability to restore hyperlinks within the embedded pdfs. Not fully automatic- the user has to help it along
+%%   Completely redid the example scaffolding and example content
+%%
+%% Previous Header below
+%%###############################################################################
+%% Modified by James Saunderson to comply with thesis requirements for Monash University.
+%%###############################################################################
 %% Modified by Ricardo Garcia-Rosas to satisfy the rules established by Monash University's Research Higher Degrees Committee as of 4th of June 2019.
 %% Guidelines can be found at: https://gradresearch.unimelb.edu.au/__data/assets/pdf_file/0004/2027839/Preparation-of-GR-theses-rules.pdf
 %%
@@ -10,170 +29,166 @@
 %% Created by Steve R. Gunn, modified by Sunil Patel: www.sunilpatel.co.uk
 %%###############################################################################
 %% Modified based on above sources, it is originally designed for The University of Melbourne, I have
-%% done some amendment for Monash university usage. 
+%% done some amendment for Monash university usage.
 %% amend by xingbod@gmail.com
 %%###############################################################################
-
 \NeedsTeXFormat{LaTeX2e}[1996/12/01]
-\ProvidesClass{Thesis}
-              [2007/22/02 v1.0
-   LaTeX document class]
-\def\baseclass{book}
-\DeclareOption*{\PassOptionsToClass{\CurrentOption}{\baseclass}}
-\def\@checkoptions#1#2{
-  \edef\@curroptions{\@ptionlist{\@currname.\@currext}}
-  \@tempswafalse
-  \@tfor\@this:=#2\do{
-    \@expandtwoargs\in@{,\@this,}{,\@curroptions,}
-    \ifin@ \@tempswatrue \@break@tfor \fi}
-  \let\@this\@empty
-  \if@tempswa \else \PassOptionsToClass{#1}{\baseclass}\fi
-}
-\@checkoptions{11pt}{{10pt}{11pt}{12pt}}
-\PassOptionsToClass{a4paper}{\baseclass}
-\ProcessOptions\relax
-\LoadClass{\baseclass}
-\newcommand\bhrule{\typeout{------------------------------------------------------------------------------}}
+\ProvidesClass{Thesis}[2023/08/25 v2.0 LaTeX document class]
+\LoadClass[a4paper,oneside,12pt]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[australian]{babel}
+
+%% PDF/A compliance
+\usepackage{colorprofiles}
+\usepackage[a-2u,mathxmp]{pdfx}
+
+%% Solves some font availability problems
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+\usepackage{xcolor}
+\definecolor{thesisblue}{RGB}{0,0,192}  %% Colour for hyperlinks
+\definecolor{thesisdarkgrey}{RGB}{25,25,25}  %% Colour for footer
 
 
-\newcommand\copyrightnotice[1]{
-\btypeout{Copyright notice}
-\addtotoc{Copyright notice}
-\thispagestyle{plain}
-% \null\vfil
-%\vskip 60\p@
-{\bf{Copyright~notice}}
-%\vskip 60\p@
-{\normalsize #1}
-\vfil\vfil\null
-% \cleardoublepage
-}
-
-
-\newcommand\abstract[1]{
-\btypeout{Abstract}
-\addtotoc{Abstract}
-\thispagestyle{plain}
-% \null\vfil
-%\vskip 60\p@
-{\bf{Abstract}}
-%\vskip 60\p@
-{\normalsize #1}
-\vfil\vfil\null
-%\cleardoublepage
-}
-
-\newcommand\Declaration[1]{
-\btypeout{Declaration}
-\addtotoc{Declaration}
-\thispagestyle{plain}
-% \null\vfil
-%\vskip 60\p@
-{\bf{Declaration}}
-%\vskip 60\p@
-{\normalsize #1}
-\vfil\vfil\null
-%\cleardoublepage
-}
-
-
-
-\newcommand\Publicationslist[1]{
-\btypeout{Publications during enrolment}
-\addtotoc{Publications during enrolment}
-\thispagestyle{plain}
-% \null\vfil
-%\vskip 60\p@
-{\bf{Publications~during~enrolment}}
-%\vskip 60\p@
-{\normalsize #1}
-\vfil\vfil\null
-%\cleardoublepage
-}
-
-\newcommand\Declarationpublication[1]{
-\btypeout{Thesis including published works declaration}
-\addtotoc{Thesis including published works declaration}
-\thispagestyle{plain}
-% \null\vfil
-%\vskip 60\p@
-{\bf{Thesis~including~published~works~declaration}}
-%\vskip 60\p@
-{\normalsize #1}
-\vfil\vfil\null
-%\cleardoublepage
-}
-\newcommand\Preface[1]{
-\btypeout{Preface}
-\addtotoc{Preface}
-\thispagestyle{plain}
-\null\vfil
-%\vskip 60\p@
-{\bf{Preface}}
-%\vskip 60\p@
-{\normalsize #1}
-\vfil\vfil\null
-%\cleardoublepage
-}
-
-\newcommand\btypeout[1]{\bhrule\typeout{\space #1}\bhrule}
-\def\today{\ifcase\month\or
-  January\or February\or March\or April\or May\or June\or
-  July\or August\or September\or October\or November\or December\fi
-  \space \number\year}
+%%###############################################################################
+%% Page dimensions, margins, line spacing, header, footer, headings
+%%#######################################
 \usepackage{setspace}
+\usepackage[
+  a4paper,
+  hmargin=25mm,
+  vmargin=15mm,
+  includeheadfoot, %% Contain within header and footer within the margins
+  headheight=15pt,
+  %nofoot,
+  %nohead,
+]{geometry}
+
+%% Line and paragraph spacing
+\raggedbottom
 \onehalfspacing
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{2.0ex plus0.5ex minus0.2ex}
-\usepackage{vmargin}
-\setmarginsrb           { 1.5in}  % left margin
-                        { 0.6in}  % top margin
-                        { 1.0in}  % right margin
-                        { 0.8in}  % bottom margin
-                        {  20pt}  % head height
-                        {0.25in}  % head sep
-                        {   9pt}  % foot height
-                        { 0.3in}  % foot sep
-\raggedbottom
 \setlength{\topskip}{1\topskip \@plus 5\p@}
-\doublehyphendemerits=10000       % No consecutive line hyphens.
-\brokenpenalty=10000              % No broken words across columns/pages.
-\widowpenalty=9999                % Almost no widows at bottom of page.
-\clubpenalty=9999                 % Almost no orphans at top of page.
-\interfootnotelinepenalty=9999    % Almost never break footnotes.
+
+%% Heading and TOC formatting
+\usepackage[nobottomtitles]{titlesec}
+%% For the default values of the following, see the 'Standard Classes' from the titlesec documentation
+%% SYNTAX: \titleformat{command}[preset 'shape']{format}{label}{sep}{before-code}[after-code]
+\titleformat{\chapter}[hang]{\normalfont\huge\bfseries}{\thechapter}{20pt}{\Huge}[]
+\titleformat{\paragraph}[hang]{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titleformat{\subparagraph}[hang]{\normalfont\normalsize\bfseries}{\thesubparagraph}{1em}{}
+%% SYNTAX: \titlespacing{command}{left margin}{sep before title}{sep after title}
+\titlespacing*{\chapter}{0em}{1ex}{-1ex}
+\titlespacing*{\section}{0em}{1ex}{-1ex}
+\titlespacing*{\subsection}{0em}{1ex}{-1ex}
+\titlespacing*{\subsubsection}{0em}{1ex}{-1ex}
+\titlespacing*{\paragraph}{0em}{1ex}{-1ex}
+\titlespacing*{\subparagraph}{0em}{1ex}{-1ex}
+\renewcommand{\bottomtitlespace}{8\baselineskip} %% Minimum distance between a section heading and the bottom of a page
+
+%% Header and footer formatting + more chapter heading formatting
+%% The titlesec and fancyhdr work together
+%%   Use \assignpagestyle to apply Header/footer style to TOC & first page in a chapter
 \usepackage{fancyhdr}
-\lhead[\rm\thepage]{\fancyplain{}{\sl{\rightmark}}}
-\rhead[\fancyplain{}{\sl{\leftmark}}]{\rm\thepage}
-\chead{}\lfoot{}\rfoot{}\cfoot{}
-\pagestyle{fancy}
-\renewcommand{\chaptermark}[1]{\btypeout{\thechapter\space #1}\markboth{\@chapapp\ \thechapter\ #1}{\@chapapp\ \thechapter\ #1}}
-\renewcommand{\sectionmark}[1]{}
-\renewcommand{\subsectionmark}[1]{}
-\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
-\hbox{}
-\thispagestyle{empty}
-\newpage
-\if@twocolumn\hbox{}\newpage\fi\fi\fi}
-\usepackage{amsmath,amsfonts,amssymb,amscd,amsthm,xspace}
-\theoremstyle{plain}
-\newtheorem{example}{Example}[chapter]
-\newtheorem{theorem}{Theorem}[chapter]
-\newtheorem{corollary}[theorem]{Corollary}
-\newtheorem{lemma}[theorem]{Lemma}
-\newtheorem{proposition}[theorem]{Proposition}
-\newtheorem{axiom}[theorem]{Axiom}
-\theoremstyle{definition}
-\newtheorem{definition}[theorem]{Definition}
-\theoremstyle{remark}
-\newtheorem{remark}[theorem]{Remark}
-\usepackage[centerlast,small,sc]{caption}
-\setlength{\captionmargin}{20pt}
-\newcommand{\fref}[1]{Figure~\ref{#1}}
-\newcommand{\tref}[1]{Table~\ref{#1}}
-\newcommand{\eref}[1]{Equation~\ref{#1}}
-\newcommand{\cref}[1]{Chapter~\ref{#1}}
-\newcommand{\sref}[1]{Section~\ref{#1}}
-\newcommand{\aref}[1]{Appendix~\ref{#1}}
+\fancyhfinit{\color{thesisdarkgrey}} %% Change colour of header & footer
+\let\defaultheadrule\headrule
+\let\defaultfootrule\footrule
+
+\fancypagestyle{preliminarypages}[fancydefault]{%%
+  \fancyhf{}%% Clear header and footer
+  \let\headrule\null\relax%%
+  \let\footrule\null\relax%%
+  \fancyfoot[R]{\footnotesize \thepage}%%
+}
+
+\fancypagestyle{core}[fancydefault]{%%
+  \fancyhf{}%% Clear header and footer
+  \let\headrule\null\relax%%
+  \let\footrule\defaultfootrule%%
+  \renewcommand{\footrulewidth}{0.4pt}%%
+  \fancyfoot[R]{\footnotesize Page\ \thepage}%%
+  \fancyfoot[L]{\footnotesize \rightmark\leftmark}%% Yes, I switch left and right because latex is dumb
+  %% Chapter heading formatting
+  \titleformat{\chapter}[hang]{\normalfont\huge\bfseries}{\thechapter}{20pt}{\Huge}[%%
+    %% Lengths for double rule: r1=1.6pt, gap=1.6pt, r2=0.4pt
+    \vspace*{-1\baselineskip}%%
+    \rule{\textwidth}{0.4pt}\vspace*{-1\baselineskip}\vspace{3.2pt} %% r2, gap+r1
+    \rule{\textwidth}{1.6pt} %% r1
+  ]%%
+}
+\fancypagestyle{corefirst}[core]{}
+
+\fancypagestyle{appfirst}[core]{}
+\fancypagestyle{app}[appfirst]{}
+
+\fancypagestyle{bibfirst}[core]{%%
+  \fancyfoot[L]{\footnotesize \nouppercase\leftmark}%%
+}
+\fancypagestyle{bib}[bibfirst]{}
+
+
+%%###############################################################################
+%% Text formatting, paragraph pagination
+%%#######################################
+\hyphenpenalty=10000 %% Prevent hyphenation (Part 1/2)
+\exhyphenpenalty=10000 %% Prevent hyphenation (Part 2/2)
+\doublehyphendemerits=10000 %% No consecutive line hyphens.
+\brokenpenalty=10000 %% No broken words across columns/pages.
+\widowpenalty=9999 %% Almost no widows at bottom of page.
+\clubpenalty=9999 %% Almost no orphans at top of page.
+\interfootnotelinepenalty=9999 %% Almost never break footnotes.
+
+\emergencystretch 3em %% Having disabled hyphenation, drop long words to the next line instead of overflowing
+\hfuzz=2.0em %% Suppress warnings for \hbox overflow ("overfull \hbox") by up to given length
+\hbadness=4000 %% range=[0,10000] Suppress warnings for underfull \hbox up to given badness level
+
+\setlength{\footnotesep}{1\baselineskip} %% Space between footnotes
+\setlength{\skip\footins}{1\baselineskip} %% Space between the text body and the footnotes
+
+%% Hyperlinks
+\hypersetup{pdfpagemode={UseOutlines},pdfstartview={FitV},pdfpagelayout={SinglePage},unicode,
+  bookmarksopen=true,bookmarksopenlevel=0,bookmarksnumbered=true,hypertexnames=false,
+  colorlinks,allcolors={thesisblue},
+  breaklinks=true}
+
+%% (Part of hyperref) When setting metadata and such, replace instances of "\\" with " "
+\pdfstringdefDisableCommands{
+  \let\\\space
+}
+
+
+%%###############################################################################
+%% User commands: citations & bibliography
+%%#######################################
+\newcommand{\figref}[1]{Figure~\ref{#1}}
+\newcommand{\tbref}[1]{Table~\ref{#1}}
+%\newcommand{\eqref}[1]{Equation~\ref{#1}} %% Already defined by amsmath
+\newcommand{\chapref}[1]{Chapter~\ref{#1}}
+\newcommand{\secref}[1]{Section~\ref{#1}}
+\newcommand{\appref}[1]{Appendix~\ref{#1}}
+
+\newcommand{\algoref}[1]{Algorithm~\ref{#1}}
+\newcommand{\algoRefLine}[1]{Line~\ref{#1}}
+\newcommand{\algoRefLines}[2]{Lines~\ref{#1}\textbf{--}\ref{#2}}
+
+
+%%###############################################################################
+%% Misc
+%%#######################################
+\usepackage{enumitem} %% More control of lists
+\usepackage{csquotes} %% Block quotations
+\usepackage{changepage} %% Change margins for only a section
+
+\usepackage{datetime} %% Print the current date in different formats
+
+
+%%###############################################################################
+%% Float pagination
+%%#######################################
+%% https://robjhyndman.com/hyndsight/latex-floats/index.html
 \renewcommand{\topfraction}{0.85}
 \renewcommand{\bottomfraction}{.85}
 \renewcommand{\textfraction}{0.1}
@@ -184,293 +199,329 @@
 \setcounter{bottomnumber}{9}
 \setcounter{totalnumber}{20}
 \setcounter{dbltopnumber}{9}
-\usepackage{graphicx}
-\usepackage{epstopdf}
-\usepackage[scriptsize]{subfigure}
-\usepackage{booktabs}
-\usepackage{rotating}
-\usepackage{listings}
-\usepackage{lstpatch}
-\lstset{captionpos=b,
-        frame=tb,
-        basicstyle=\scriptsize\ttfamily,
-        showstringspaces=false,
-        keepspaces=true}
-\lstdefinestyle{matlab} {
-        language=Matlab,
-        keywordstyle=\color{blue},
-        commentstyle=\color[rgb]{0.13,0.55,0.13}\em,
-        stringstyle=\color[rgb]{0.7,0,0} }
-\usepackage[pdfpagemode={UseOutlines},bookmarks=true,bookmarksopen=true,
-   bookmarksopenlevel=0,bookmarksnumbered=true,hypertexnames=false,
-   colorlinks,linkcolor={blue},citecolor={blue},urlcolor={red},
-   pdfstartview={FitV},unicode,breaklinks=true]{hyperref}
-\pdfstringdefDisableCommands{
-   \let\\\space
-}
-\newcommand*{\supervisor}[1]{\def\supname{#1}}
-\newcommand*{\examiner}[1]{\def\examname{#1}}
-\newcommand*{\degree}[1]{\def\degreename{#1}}
-\newcommand*{\authors}[1]{\def\authornames{#1}}
-\newcommand*{\addresses}[1]{\def\addressnames{#1}}
-\newcommand*{\university}[1]{\def\univname{#1}}
-\newcommand*{\UNIVERSITY}[1]{\def\UNIVNAME{#1}}
-\newcommand*{\school}[1]{\def\schoolname{#1}}
-\newcommand*{\gradtime}[1]{\def\gradtime{#1}}
-\newcommand*{\SCHOOL}[1]{\def\SCHOOLNAME{#1}}
-\newcommand*{\group}[1]{\def\groupname{#1}}
-\newcommand*{\GROUP}[1]{\def\GROUPNAME{#1}}
-\newcommand*{\department}[1]{\def\deptname{#1}}
-\newcommand*{\DEPARTMENT}[1]{\def\DEPTNAME{#1}}
-\newcommand*{\subject}[1]{\def\subjectname{#1}}
-\newcommand*{\keywords}[1]{\def\keywordnames{#1}}
-\newcommand*{\studentdegree}[1]{\def\studentdegreenames{#1}}
-\supervisor  {}
-\examiner    {}
-\degree      {Doctor of Philosophy}
-\authors     {}
-\university  {\texorpdfstring{\href{University Web Site URL Here (include http://)}
-                {Monash University}}
-                {Monash University}}
-\UNIVERSITY  {\texorpdfstring{\href{University Web Site URL Here (include http://)}
-                {Monash University}}
-                {Monash University}}
-\school  {\texorpdfstring{\href{School Web Site URL Here (include http://)}
-                {School of Information Technology}}
-                {School of Information Technology}}
-\SCHOOL  {\texorpdfstring{\href{School Web Site URL Here (include http://)}
-                {School of Information Technology}}
-                {School of Information Technology}}
-\group       {\texorpdfstring{\href{Research Group Web Site URL Here (include http://)}
-                {Research Group Name}}
-                {Research Group Name}}
-\GROUP       {\texorpdfstring{\href{Research Group Web Site URL Here (include http://)}
-                {RESEARCH GROUP NAME (IN BLOCK CAPITALS)}}
-                {RESEARCH GROUP NAME (IN BLOCK CAPITALS)}}
-\department     {\texorpdfstring{\href{Department Web Site URL Here (include http://)}
-                {Department Name}}
-                {Department Name}}
-\DEPARTMENT     {\texorpdfstring{\href{Department Web Site URL Here (include http://)}
-                {DEPARTMENT NAME (IN BLOCK CAPITALS)}}
-                {DEPARTMENT NAME (IN BLOCK CAPITALS)}}
-\addresses   {}
-\subject     {}
-\keywords    {}
 
-\renewcommand\maketitle{
-  \btypeout{Title Page}
-  \hypersetup{pdftitle={\@title}}
-  \hypersetup{pdfsubject=\subjectname}
-  \hypersetup{pdfauthor=\authornames}
-  \hypersetup{pdfkeywords=\keywordnames}
+%%###############################################################################
+%% Maths
+%%#######################################
+\usepackage{amsmath,amssymb,amsfonts} %% Equations
+\usepackage{bm} %% Apply bold to special symbols (only use on Greek letters, not normal letters)
+\usepackage{commath} %% Derivatives, brackets
+\usepackage{tensor} %% Left subscripts and left superscripts
+\usepackage[ruled]{algorithm2e} %% Pseudocode Algorithms
+\usepackage{textcomp, gensymb} %% Symbol: \degree
+\usepackage{mathtools} %% Symbol: \coloneqq
+
+%% TODO: This was in the old version of the class, but is not tested in this version
+%\usepackage{amsthm}
+%\theoremstyle{plain}
+%\newtheorem{example}{Example}[chapter]
+%\newtheorem{theorem}{Theorem}[chapter]
+%\newtheorem{corollary}[theorem]{Corollary}
+%\newtheorem{lemma}[theorem]{Lemma}
+%\newtheorem{proposition}[theorem]{Proposition}
+%\newtheorem{axiom}[theorem]{Axiom}
+%\theoremstyle{definition}
+%\newtheorem{definition}[theorem]{Definition}
+%\theoremstyle{remark}
+%\newtheorem{remark}[theorem]{Remark}
+
+
+%%###############################################################################
+%% Graphics
+%%#######################################
+\usepackage{graphicx}
+
+%% Figures: General improvements and extends functionality with more options
+\usepackage[
+  justification=centerlast,
+  font={normalsize,onehalfspacing},
+  labelfont={bf},
+]{caption}
+\setlength{\captionmargin}{20pt}
+
+%% Sub-figures
+%%   When using with 'caption' package, include "caption" first
+%%   To use this package, see the following
+%%       https://tex.stackexchange.com/a/37597
+%%       https://tex.stackexchange.com/a/128068
+\usepackage[
+  justification=centerlast,
+  font={normalsize,onehalfspacing},
+  labelfont={bf},
+]{subcaption}
+%\renewcommand{\thesubfigure}{\arabic{figure}\alph{subfigure}} %% Change numbering system. See lots of options in link
+%%   http://www.peteryu.ca/tutorials/publishing/latex_captions
+
+\usepackage{rotating} %% Rotate floats
+
+%% Tables
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{threeparttable} %% Use if needing table notes (footnotes for tables)
+\usepackage{makecell} %% Line breaks in tables with \makecell
+
+%% TODO: This was in the old version of the class, but is not tested in this version
+%% Display formatted code blocks
+%\usepackage{listings}
+%\lstset{captionpos=b,
+%        frame=tb,
+%        basicstyle=\scriptsize\ttfamily,
+%        showstringspaces=false,
+%        keepspaces=true}
+%\lstdefinestyle{matlab} {
+%        language=Matlab,
+%        keywordstyle=\color{blue},
+%        commentstyle=\color[rgb]{0.13,0.55,0.13}\em,
+%        stringstyle=\color[rgb]{0.7,0,0} }
+
+
+%%###############################################################################
+%% User commands: title page + metadata
+%%#######################################
+\newcommand*{\thesisUniversity}[1]{\def\printThesisUniversity{#1}}
+\newcommand*{\thesisSchool}[1]{\def\printThesisSchool{#1}}
+\newcommand*{\thesisDepartment}[1]{\def\printThesisDepartment{#1}}
+\newcommand*{\thesisGradtime}[1]{\def\printThesisGradtime{#1}}
+\newcommand*{\thesisDegree}[1]{\def\printThesisDegree{#1}}
+\newcommand*{\thesisPriorDegrees}[1]{\def\printThesisPriorDegrees{#1}}
+\newcommand*{\thesisAuthor}[1]{\def\printThesisAuthor{#1}}
+\newcommand*{\thesisPublicationType}[1]{\def\printThesisPublicationType{#1}}
+\newcommand*{\thesisLanguage}[1]{\def\printThesisLanguage{#1}}
+
+\usepackage{xpatch}
+\newcommand*{\thesisTitle}[1]{
+  \title{#1}
+  %% Create \printThesisTitleOneLine which replaces any line break "\\" with a space " "
+  %% Because xstring and newfile don't get along, I have to use this roundabout method
+  %% https://tex.stackexchange.com/a/433591
+  \let\protected@iwrite\protected@write
+  \xpatchcmd{\protected@iwrite}{\write}{\immediate\write}{}{}
+  \newwrite\titlefile
+  \immediate\openout\titlefile=\jobname.title
+  \protected@iwrite\titlefile{\def\\{ }\def~{ }}{\@title}
+  \immediate\closeout\titlefile
+  \newread\inputstream
+  \immediate\openin\inputstream=\jobname.title
+  \immediate\read\inputstream to \printThesisTitleOneLine
+}
+
+%% Metadata for package pdfx
+%% See: https://webpages.tuni.fi/latex/pdfa-guide.pdf
+\usepackage{newfile}
+\newcommand{\makemetadata}{
+  \newoutputstream{thesisMetadataStream}
+  \openoutputfile{\jobname.xmpdata}{thesisMetadataStream}
+  \addtostream{thesisMetadataStream}{\protect\Title{\printThesisTitleOneLine}}
+  \addtostream{thesisMetadataStream}{\protect\Author{\printThesisAuthor}}
+  \addtostream{thesisMetadataStream}{\protect\Language{\printThesisLanguage}}
+  \addtostream{thesisMetadataStream}{\protect\Subject{}}
+  \addtostream{thesisMetadataStream}{\protect\Keywords{}}
+  \addtostream{thesisMetadataStream}{\protect\Publisher{\printThesisUniversity}}
+  \addtostream{thesisMetadataStream}{\protect\PublicationType{\printThesisPublicationType}}
+  \closeoutputstream{thesisMetadataStream}
+}
+
+\renewcommand{\maketitle}{
   \thispagestyle{empty}
   \begin{titlepage}
-    \let\footnotesize\small
-    \let\footnoterule\relax
-    \let \footnote \thanks
-    \setcounter{footnote}{0}
     \null\vfil
-    \vskip 0\p@
     \begin{center}
       \setlength{\parskip}{0pt}
-      %
-      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      % Comment \includegraphics line out!!
-      %
-      {\includegraphics[width=1\textwidth]{Figures/monash-logo.jpg} \par}
-      %
-      %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-      %
+      {\includegraphics[width=1\textwidth]{Figures/monash-logo.pdf} \par}
       \vfill
-      {\huge \bf \@title \par}
-    
+      {\LARGE \bf \@title \par}
+      \bigskip
+      \bigskip
+      \bigskip
+      \bigskip
+      {\LARGE \printThesisAuthor \par}
       \smallskip
-      {\LARGE \authornames \par}
-      \smallskip
-      \studentdegreenames{}%Doctor of Philosophy
+      \printThesisPriorDegrees{}
       \vfill
       \vfill
-      {\large A Thesis Submitted for the Degree of \degreename{} %Doctor of Philosophy 
-      at \par}
-       {\large\textbf{\UNIVNAME} in \gradtime \par} 
-      \ifdefined\deptname {\large \deptname\\ \schoolname \par}
-      \else {\large \schoolname \par} 
-      \fi
-     
+      {\large A Thesis Submitted for the Degree of \printThesisDegree{} at \par}
+      {\large\textbf{\printThesisUniversity} in \printThesisGradtime \par}
+      {\large \printThesisDepartment \par}
+      {\large \printThesisSchool \par}
       \bigskip
       \bigskip
       \bigskip
-    %   {\Large \@date \par}
       \bigskip
     \end{center}
-    \par
-    \@thanks
     \vfil\null
   \end{titlepage}
-  \setcounter{footnote}{0}%
-  \global\let\thanks\relax
-  \global\let\maketitle\relax
-  \global\let\@thanks\@empty
-  \global\let\@author\@empty
-  \global\let\@date\@empty
-  \global\let\@title\@empty
-  \global\let\title\relax
-  \global\let\author\relax
-  \global\let\date\relax
-  \global\let\and\relax
-  \cleardoublepage
+  \clearpage
 }
-% \newenvironment{abstractenv}
-% {
-%   \btypeout{Abstract Page}
-%   \thispagestyle{empty}
-% %   \null\vfil
-% \textbf{Abstract}
-%   \begin{center}
-%     \setlength{\parskip}{0pt}
-%     {\normalsize \UNIVNAME \par}
-%     \bigskip
-%     {\huge{\textit{Abstract}} \par}
-%     \bigskip
-%     {\normalsize \deptname \par}
-%     {\normalsize \schoolname \par}
-%     \bigskip
-%     {\normalsize Doctor of Philosophy\par}
-%     \bigskip
-%     {\normalsize\bf \@title \par}
-%     \medskip
-%     {\normalsize by \authornames \par}
-%     \bigskip
-%   \end{center}
-% }
-% {
-%   \vfil\vfil\vfil\null
-%   \cleardoublepage
-% }
-\addtocounter{secnumdepth}{1}
+
+
+%%###############################################################################
+%% Preliminary pages
+%%#######################################
+%% Adjust spacing within Contents
+\newcommand{\tocLineSpace}{1.3}
+\newlength{\tocLineSpaceSubtract}
+\setlength{\tocLineSpaceSubtract}{-2\baselineskip}
+\addtolength{\tocLineSpaceSubtract}{\tocLineSpace\baselineskip}
+\addtolength{\tocLineSpaceSubtract}{0.8pt} %% Close enough to matching line spacing of subsections
+
+\newcommand{\copyrightnotice}[1]{
+  \addtotoc{Copyright notice}
+  {\large \bf{Copyright~notice}}\par
+  {\normalsize #1}
+  \vfil\vfil\null\clearpage
+}
+
+\newcommand{\abstract}[1]{
+  \addtocontents{toc}{\vspace*{\tocLineSpaceSubtract}}
+  \addtotoc{Abstract}
+  {\large \bf{Abstract}}\par
+  {\normalsize #1}
+  \vfil\vfil\null\clearpage
+}
+
+\newcommand{\Publicationslist}[1]{
+  \addtocontents{toc}{\vspace*{\tocLineSpaceSubtract}}
+  \addtotoc{Publications during enrolment}
+  {\large \bf{Publications~during~enrolment}}\par
+  {\normalsize #1}
+  \vfil\vfil\null\clearpage
+}
+
+\newcommand{\Declarationpublication}[1]{
+  \addtocontents{toc}{\vspace*{\tocLineSpaceSubtract}}
+  \addtotoc{Thesis including published works declaration}
+  {\large \bf{Thesis~including~published~works~declaration}}\par
+  {\normalsize #1}
+  \vfil\vfil\null\clearpage
+}
+
+\newcommand{\ack}[1]{
+  \addtocontents{toc}{\vspace*{\tocLineSpaceSubtract}}
+  \addtotoc{Acknowledgements}
+  {\large \bf{Acknowledgements}}\par
+  {\normalsize #1}
+  \vfil\vfil\null\clearpage
+}
+
+
+%%###############################################################################
+%% Contents
+%%#######################################
+%% Formatting & spacing of TOC items
+\usepackage{titletoc}
+\titlecontents{chapter}[0pt]{\vspace{1em}\bfseries}{\thecontentslabel\hspace{0.85em}}{}{\hfill\contentspage}[\vspace{2pt}]
+%% SYNTAX: \dottedcontents{section}[left]{above-code}{label width}{leader width}
+%% My pattern is to align the edge of the label (assuming single digit)
+%% left = (previous left) + (previous label width)
+%% label width = (previous label width) + 0.9
+\dottedcontents{section}[3.8em]{}{2.3em}{1pc}
+\dottedcontents{subsection}[6.1em]{}{3.2em}{1pc}
+\dottedcontents{subsubsection}[9.3em]{}{4.1em}{1pc}
+\dottedcontents{paragraph}[13.3em]{}{5.0em}{1pc}
+\dottedcontents{subparagraph}[18.3em]{}{5.9em}{1pc}
+
+
+\setcounter{secnumdepth}{6}
 \setcounter{tocdepth}{6}
-\newcounter{dummy}
+\newcounter{dummy} %% Oh hey! That's me!
+
 \newcommand\addtotoc[1]{
-\refstepcounter{dummy}
-\addcontentsline{toc}{chapter}{#1}}
-\renewcommand\tableofcontents{
-\btypeout{Table of Contents}
-\begin{spacing}{1}{
-    \setlength{\parskip}{1pt}
-    \if@twocolumn
-      \@restonecoltrue\onecolumn
-    \else
-      \@restonecolfalse
-    \fi
-    \chapter*{\contentsname
-        \@mkboth{
-           \MakeUppercase\contentsname}{\MakeUppercase\contentsname}}
+  \refstepcounter{dummy}
+  \addcontentsline{toc}{chapter}{#1}
+}
+
+\renewcommand{\tableofcontents}{
+  \addtocontents{toc}{\vspace*{\tocLineSpaceSubtract}}
+  \addtotoc{\contentsname}
+  \begin{spacing}{\tocLineSpace}
+    \setlength{\parskip}{0pt}
+    \chapter*{\contentsname}
     \@starttoc{toc}
-    \if@restonecol\twocolumn\fi
-   \cleardoublepage
-}\end{spacing}
-}
-\renewcommand\listoffigures{
-\btypeout{List of Figures}
-\addtotoc{List of Figures}
-\begin{spacing}{1}{
-    \setlength{\parskip}{1pt}
-    \if@twocolumn
-      \@restonecoltrue\onecolumn
-    \else
-      \@restonecolfalse
-    \fi
-    \chapter*{\listfigurename
-      \@mkboth{\MakeUppercase\listfigurename}
-              {\MakeUppercase\listfigurename}}
-    \@starttoc{lof}
-    \if@restonecol\twocolumn\fi
-    \cleardoublepage
-}\end{spacing}
-}
-\renewcommand\listoftables{
-\btypeout{List of Tables}
-\addtotoc{List of Tables}
-\begin{spacing}{1}{
-    \setlength{\parskip}{1pt}
-    \if@twocolumn
-      \@restonecoltrue\onecolumn
-    \else
-      \@restonecolfalse
-    \fi
-    \chapter*{\listtablename
-      \@mkboth{
-          \MakeUppercase\listtablename}{\MakeUppercase\listtablename}}
-    \@starttoc{lot}
-    \if@restonecol\twocolumn\fi
-    \cleardoublepage
-}\end{spacing}
-}
-\newcommand\listsymbolname{Abbreviations}
-\usepackage{longtable}
-\newcommand\listofsymbols[2]{
-\btypeout{\listsymbolname}
-\addtotoc{\listsymbolname}
-    \chapter*{\listsymbolname
-      \@mkboth{
-          \MakeUppercase\listsymbolname}{\MakeUppercase\listsymbolname}}
-\begin{longtable}[c]{#1}#2\end{longtable}\par
-    \cleardoublepage
-}
-\newcommand\listconstants{Constants}
-\usepackage{longtable}
-\newcommand\listofconstants[2]{
-\btypeout{\listconstants}
-\addtotoc{\listconstants}
-    \chapter*{\listconstants
-      \@mkboth{
-          \MakeUppercase\listconstants}{\MakeUppercase\listconstants}}
-\begin{longtable}[c]{#1}#2\end{longtable}\par
-    \cleardoublepage
-}
-\newcommand\listnomenclature{Symbols}
-\usepackage{longtable}
-\newcommand\listofnomenclature[2]{
-\btypeout{\listnomenclature}
-\addtotoc{\listnomenclature}
-    \chapter*{\listnomenclature
-      \@mkboth{
-          \MakeUppercase\listnomenclature}{\MakeUppercase\listnomenclature}}
-\begin{longtable}[c]{#1}#2\end{longtable}\par
-    \cleardoublepage
+  \end{spacing}
+  \clearpage
 }
 
-\newcommand\ack[1]{
-\btypeout{Acknowledgements}
-\addtotoc{Acknowledgements}
-\thispagestyle{plain}
-% \null\vfil
-%\vskip 60\p@
-{\noindent \bf{Acknowledgements}}
-%\vskip 60\p@
-{\normalsize #1}
-\vfil\vfil\null
-%\cleardoublepage
+
+%%###############################################################################
+%% List of tables / figures
+%%#######################################
+%% Wrap these commands with code to add entries to the contents
+
+%\renewcommand{\listfigurename}{List of Figures}
+\let\defaultlistoffigures\listoffigures
+\renewcommand{\listoffigures}{
+  \addtocontents{toc}{\vspace*{\tocLineSpaceSubtract}}
+  \addtotoc{\listfigurename}
+  \begin{spacing}{1.5}
+    \defaultlistoffigures
+  \end{spacing}
+  \clearpage
 }
 
-\newcommand\dedicatory[1]{
-\btypeout{Dedicatory}
-\thispagestyle{plain}
-\null\vfil
-\vskip 60\p@
-\begin{center}{\Large \sl #1}\end{center}
-\vfil\null
-\cleardoublepage
+%\renewcommand{\listtablename}{List of Tables}
+\let\defaultlistoftables\listoftables
+\renewcommand{\listoftables}{
+  \addtocontents{toc}{\vspace*{\tocLineSpaceSubtract}}
+  \addtotoc{\listtablename}
+  \begin{spacing}{1.5}
+    \defaultlistoftables
+  \end{spacing}
+  \clearpage
 }
-\renewcommand\backmatter{
-  \if@openright
-    \cleardoublepage
-  \else
-    \clearpage
-  \fi
+
+
+%%###############################################################################
+%% Additional preliminary pages
+%%#######################################
+\usepackage{longtable}
+
+\newcommand{\listOfAbbreviationsHeading}{Abbreviations}
+\newcommand{\listOfAbbreviations}[2]{
+  \clearpage
+  \addtocontents{toc}{\vspace*{\tocLineSpaceSubtract}}
+  \addtotoc{\listOfAbbreviationsHeading}
+  \begin{spacing}{1.5}
+    \chapter*{\listOfAbbreviationsHeading}
+    \begin{longtable}[l]{#1}#2\end{longtable}\par
+  \end{spacing}
+  \clearpage
+}
+
+\newcommand{\listOfConstantsHeading}{Constants}
+\newcommand{\listOfConstants}[2]{
+  \clearpage
+  \addtocontents{toc}{\vspace*{\tocLineSpaceSubtract}}
+  \addtotoc{\listOfConstantsHeading}
+  \begin{spacing}{1.5}
+    \chapter*{\listOfConstantsHeading}
+    \begin{longtable}[l]{#1}#2\end{longtable}\par
+  \end{spacing}
+  \clearpage
+}
+
+\newcommand{\listOfNomenclatureHeading}{Symbols}
+\newcommand{\listOfNomenclature}[2]{
+  \clearpage
+  \addtocontents{toc}{\vspace*{\tocLineSpaceSubtract}}
+  \addtotoc{\listOfNomenclatureHeading}
+  \begin{spacing}{1.5}
+    \chapter*{\listOfNomenclatureHeading}
+    \begin{longtable}[l]{#1}#2\end{longtable}\par
+  \end{spacing}
+  \clearpage
+}
+
+
+%%###############################################################################
+%% Bib
+%%#######################################
+\renewcommand{\backmatter}{
   \addtotoc{\bibname}
-  \btypeout{\bibname}
-  \@mainmatterfalse}
+  \@mainmatterfalse
+}
+
+
+%%###############################################################################
+%% EOF
+%%#######################################
 \endinput
-%%
-%% End of file `Thesis.cls'.

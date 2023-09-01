@@ -1,12 +1,39 @@
-% https://www.monash.edu/graduate-research/examination/publication
-% https://www.monash.edu/rlo/graduate-research-writing/write-the-thesis
-% https://www.monash.edu/rlo/graduate-research-writing/write-the-thesis/writing-the-thesis-chapters/structuring-a-long-text
-\Publicationslist{
+%% (OPTIONAL)
+%% Publications during enrolment
+%% ACTION
+%%      You may wish to list your publications arising from your research degree enrolment. Otherwise remove this section.
+%%      The format of this section is mostly up to you. I have added lists for categorisation by type. You may alter this.
+\Publicationslist{{}
+Journal Publications\\[-3\parskip]
+{\small
+\begin{itemize}
+	\item \fullcite{example3}
+	\item \fullcite{example5}
+\end{itemize}
+}
 
-\addtocontents{toc}{}  % Add a gap  \addtocontents{toc}{\vspace{1em}}  in the Contents, for aesthetics
+Conference Publications\\[-3\parskip]
+{\small
+\begin{itemize}
+	\item \fullcite{example1}
+	\item \fullcite{example2}
+\end{itemize}
+}
 
-\emph{You may wish to list your publications arising from your research degree enrolment using the standard citation format of your academic unit. Remove this section if you do not have publications.}
+Research Data\\[-3\parskip]
+{\small
+\begin{itemize}
+	\item \fullcite{example4}
+\end{itemize}
+}
 
-
+%% SYNTAX: \href{ref}{text}
+%% NOTE: Escape underscores in the displayed text with \_ (the ref should just be the url, as is)
+Free \& Open Source Code\\[-3\parskip]
+{\small
+\begin{itemize}
+	\item \href{https://github.com/Brandon-Johns/crane-dynamics-simulator/}{https://github.com/Brandon-Johns/crane-dynamics-simulator}
+\end{itemize}
+}
 
 }

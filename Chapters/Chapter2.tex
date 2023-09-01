@@ -1,14 +1,39 @@
-\chapter{Including a published pdf as a thesis chapter}
+\chapter{Background and Literature Review} \label{chap:BG}
 
-In a thesis including published works, some chapters may simply involve including an external (published) \texttt{.pdf} file into your thesis document.
+\begin{displayquote} \emph{%%
+	This chapter contains content from my publication \cite{example1}.
+} \end{displayquote}\vspace*{-2\baselineskip}\vspace*{\parskip}
+\begin{displayquote} \emph{%%
+	The ... was undertaken with approval from the Monash University Human Research Ethics Committee (MUHREC) \textbf{--} project ID 00000.
+} \end{displayquote}
 
-The following sample shows how to insert a subset of pages of a \texttt{.pdf} in such a way that the page numbering of the thesis is also added to the included \texttt{.pdf} pages. 
-It also scales and translates the inserted \texttt{.pdf} file to fit within the margins of the thesis. 
+%% Intro & link to objectives
+This chapter introduces the background and related literature. ...
 
-% In the following command: 
-% -- the argument {external} is the path to the pdf you would like to include (here the file happens to be called external.pdf and is in the Figures folder)
-% -- the optional argument pages=1-2 inserts pages 1-2 of the referenced pdf (change this as required, for all pages write pages={-})
-% -- the optional argument pagecommand={} keeps the overall page formatting of the thesis, including the overall page numbering
-% -- the optional argument scale=0.85 scales the included pdf so it fits nicely on the thesis page (this may need to be altered depending on the margins of the pdf)
-% -- the optinal argument offset=<x offset>mm <yoffset>mm specifies an offset from the nominal position. This will need to be adjusted so that the included document is placed well on the thesis page (i.e., margins are not violated, etc). In the example, the page is shifted 30mm to the right, and 20mm down (i.e., -20mm vertical offset). 
-\includepdf[pages=1-2,pagecommand={},scale=0.85,offset=30mm -20mm]{Figures/external}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{MySection}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Research directions
+%% Problems addressed in this thesis
+\section{Summary \& Research Directions}
+Background
+
+This thesis focuses on ...
+
+...
+
+Key directions to ... are:
+\begin{itemize}[topsep=0pt,beginpenalty=10000,first=\interlinepenalty10000]
+	\item Something
+	\item Something
+	\item Something
+\end{itemize}
+
+The remainder of this thesis investigates these research directions. \chapref{chap:article1} evaluates ... \chapref{chap:article2} introduces ...
+
