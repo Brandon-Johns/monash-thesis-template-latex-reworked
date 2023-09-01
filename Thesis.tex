@@ -25,6 +25,8 @@
 %%********************************************************************************
 %% Embed pdfs (part 1)
 %%****************************************
+%% This is for thesis including published works. It allows to embed your published articles in the thesis
+%%      For regular figures, which happen to be pdfs, you should use \includegraphics instead
 \usepackage{pdfpages} %% Embed pdfs
 
 
@@ -45,6 +47,10 @@
 %%      For me, some of the links were broken. Either delete them from the pax file, or manually fix them in the pax file
 %%      Stage 2 (run on every compile)
 %%      Compile with pdflatex as normal
+%%      If there are errors, or the compiler hangs, check for any escaped characters in the URLs.
+%%          These should instead be URL encoded. e.g.
+%%          Change \( to %28
+%%          Change \) to %29
 %% Notes
 %%      For stage 1, the file extension should not be included
 %%      Stage 2 doesn't like the pdfs sitting in subfolders
@@ -87,7 +93,7 @@
 %% Tables (required for the table in Preamble/Declaration_publications.tex)
 %%****************************************
 \usepackage{silence}
-\WarningFilter{latex}{You have requested package `lib/nicematrix',} %% Using local as the latest version is not avaliable on overleaf
+\WarningFilter{latex}{You have requested package `lib/nicematrix',} %% Using local as the latest version is not available on overleaf
 \usepackage{lib/nicematrix} %% Tables, matrices, etc.
 
 
@@ -153,7 +159,8 @@
 \input{Preamble/copyright.tex}
 \input{Preamble/Abstract.tex}
 \input{Preamble/Publications.tex}
-\input{Preamble/Declaration_publications.tex}
+\input{Preamble/Declaration_publications.tex} %% Thesis by Published Works Only
+%\input{Preamble/Declaration.tex} %% Traditional Thesis Only
 \input{Preamble/Acknowledgements.tex}
 
 %% ACTION

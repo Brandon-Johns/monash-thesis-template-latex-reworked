@@ -1,11 +1,13 @@
 # Monash University Thesis Template
 This template is based on the version provided on the ENG Graduate Research Moodle (Downloaded in 2023).
 
-The template is set for thesis including published works, but can be changed for traditional thesis.
-
-It is compliant with the Monash University requirements.
+Compliant with the Monash University requirements.
 
 The complied PDF looks like [this](./Thesis.pdf).
+
+Good for both
+- Traditional thesis
+- Thesis including published works.
 
 
 ## My Changes

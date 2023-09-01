@@ -395,6 +395,14 @@
   \vfil\vfil\null\clearpage
 }
 
+\newcommand{\Declaration}[1]{
+  \addtocontents{toc}{\vspace*{\tocLineSpaceSubtract}}
+  \addtotoc{Declaration}
+  {\large \bf{Declaration}}\par
+  {\normalsize #1}
+  \vfil\vfil\null\clearpage
+}
+
 \newcommand{\ack}[1]{
   \addtocontents{toc}{\vspace*{\tocLineSpaceSubtract}}
   \addtotoc{Acknowledgements}
