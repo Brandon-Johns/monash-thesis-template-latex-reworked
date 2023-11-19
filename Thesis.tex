@@ -33,8 +33,8 @@
 %%********************************************************************************
 %% Embed pdfs (part 2) (OPTIONAL)
 %%****************************************
-%% TO USE: Manual actions are required. See instructions below
-%% TO SKIP: No action required. Leave everything as is or comment it out
+%% If you do not wish to use this functionality, then no action is required (you may wish to comment it out)
+%% Otherwise, to use this functionality, see the instructions below
 
 %% PURPOSE
 %%      By using the package `pdfpages' to embed this pdf into the thesis, all the hyperlinks become no longer clickable.
@@ -113,6 +113,10 @@
 %%********************************************************************************
 %% OPTIONAL: Add your own packages and commands here
 %%****************************************
+%% Note that many packages are included for you within Thesis.cls
+%%    If you want to change their options, then I suggest doing so from where they currently are within the class file.
+%%    Do not re-add them here.
+%%    Small edits in the class file isn't too scary. Promise!
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -244,9 +248,9 @@
 \renewcommand{\subparagraphmark}[1]{}
 
 %% ACTION
-%%      Add you content to the appendices
+%%      Add your content to the appendices
 %%      Delete any unused chapters
-%%      If you have no appendices, it is sufficient to delete only the \input{} lines
+%%      If you have no appendices, it is sufficient to comment out only the \input{} lines
 \input{Appendices/AppendixA}
 \input{Appendices/AppendixB}
 \clearpage %% Start a new page

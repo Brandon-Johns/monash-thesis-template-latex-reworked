@@ -38,26 +38,32 @@ In the case of Chapters \ref{chap:article1} and \ref{chap:article2}, my contribu
         \Block[fill=thesisdark,v-center]{1-1}{\formatH{Nature and \% Student Contribution}} &
         \Block[fill=thesisdark,v-center]{1-1}{\formatHv{Co-author name(s) Nature and \% of Co-author's contribution}} &
         \Block[fill=thesisdark,v-center]{1-1}{\formatH{Co-author(s), Monash student}}\\
+
+        %% ACTION: The number of co-authors must be reflected in \Block[v-center]{4-1}
+        %%    i.e. change the number 4 to the number of co-authors
+        %%    This defines how big the multi-row block is
         \hline
-        \Block[v-center]{1-1}{\ref{chap:article1}} &
-        \Block[v-center]{1-1}{\formatVspace{The Title of My First Published Article}} &
-        \Block[v-center]{1-1}{Published} &
-        \Block[v-center]{1-1}{(70\%)} &
-        \Block[v-center]{1-1}{\formatVspace{
-            NAME (10\%)\\
-            NAME (10\%)\\
-            NAME (5\%)\\
-            NAME (5\%)%% This comment prevents unwanted spaces
-            }} & \Block[v-center]{1-1}{No\\No\\No\\No}\\
+        \Block[v-center]{4-1}{\ref{chap:article1}} &
+        \Block[v-center]{4-1}{\formatVspace{The Title of My First Published Article}} &
+        \Block[v-center]{4-1}{Published} &
+        \Block[v-center]{4-1}{(70\%)} &
+        \Block[v-center]{1-1}{\formatVspace{NAME: contribution~1, contribution~2 (10\%)}} & \Block[v-center]{1-1}{No}\\
+        \cline{5-6}
+        &&&&\Block[v-center]{1-1}{\formatVspace{NAME: contribution~1, contribution~2 (10\%)}} & \Block[v-center]{1-1}{No}\\
+        \cline{5-6}
+        &&&&\Block[v-center]{1-1}{\formatVspace{NAME: contribution~1 (5\%)}} & \Block[v-center]{1-1}{No}\\
+        \cline{5-6}
+        &&&&\Block[v-center]{1-1}{\formatVspace{NAME: contribution~1 (5\%)}} & \Block[v-center]{1-1}{No}\\
+
+        %% ACTION: The number of co-authors must be reflected in \Block[v-center]{2-1}
         \hline
-        \Block[v-center]{1-1}{\ref{chap:article2}} &
-        \Block[v-center]{1-1}{\formatVspace{The Title of My Second Published Article}} &
-        \Block[v-center]{1-1}{In Press} &
-        \Block[v-center]{1-1}{(80\%)} &
-        \Block[v-center]{1-1}{\formatVspace{
-            NAME (10\%)\\
-            NAME (10\%)%% This comment prevents unwanted spaces
-            }} & \Block[v-center]{1-1}{No\\No}\\
+        \Block[v-center]{2-1}{\ref{chap:article2}} &
+        \Block[v-center]{2-1}{\formatVspace{The Title of My Second Published Article}} &
+        \Block[v-center]{2-1}{In Press} &
+        \Block[v-center]{2-1}{(80\%)} &
+        \Block[v-center]{1-1}{\formatVspace{NAME: contribution~1, contribution~2 (10\%)}} & \Block[v-center]{1-1}{No}\\
+        \cline{5-6}
+        &&&&\Block[v-center]{1-1}{\formatVspace{NAME: contribution~1, contribution~2 (10\%)}} & \Block[v-center]{1-1}{No}\\
         \hline
     \end{NiceTabular}
 \end{center}

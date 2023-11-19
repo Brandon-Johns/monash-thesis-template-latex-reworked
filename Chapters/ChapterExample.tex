@@ -163,6 +163,8 @@ This is a fairly basic table. See threeparttable if you want table notes (footno
 \subsection{Algorithms}
 
 \begin{algorithm}
+    \caption{Algorithm to find the area of an object.}
+    \label{alg:myAlgo}
     \DontPrintSemicolon
     %% SYNTAX: \SetKwProg{CommandName}{Title}{ is}{end}
     \SetKwProg{Fn}{Function}{}{end}
@@ -203,8 +205,6 @@ This is a fairly basic table. See threeparttable if you want table notes (footno
         \BlankLine
         \lnl{algo:M:return} \KwRet{$A$, The area as measured in units of {\normalfont $\text{mm}^\text{2}$}}
     }
-    \caption{Algorithm to find the area of an object.}
-    \label{alg:myAlgo}
 \end{algorithm}
 
 Pseudocode of the  algorithm is \algoref{alg:myAlgo}. In the first stage of the algorithm, \algoRefLines{algo:M:vStart}{algo:M:vEnd} validate the inputs. Then \algoRefLines{algo:M:start}{algo:M:r} do the calculation. Then \algoRefLine{algo:M:return} outputs the result.

@@ -24,3 +24,8 @@ Key changes
 - Made the output PDF/A-2u compliant (well, somewhat compliant: figures and maths are like ugh)
 - Added ability to restore hyperlinks within the embedded pdfs. Not fully automatic- the user has to help it along
 - Completely redid the example scaffolding and example content
+
+
+## Source Code
+This project is hosted at https://github.com/Brandon-Johns/monash-thesis-template-latex-reworked
+
