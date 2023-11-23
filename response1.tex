@@ -1,0 +1,147 @@
+\documentclass{AuthorResponse}
+
+%% Font Choice
+%\usepackage[lining]{nunito}
+
+
+%********************************************************************************
+% Citations & Bibliography
+%****************************************
+% The choice of biblatex or natbib must match the reverenced file
+%	Biblatex requires re-including the .bib file and using \arMatchCitationNumbers
+%	natbib seems to pull everything from the aux file yay :D
+\usepackage[style=numeric, sorting=none, isbn=false, url=true,sortcites=true,maxbibnames=99]{biblatex}
+\addbibresource{Bibliography/Bibliography.bib}
+
+%\usepackage[numbers]{natbib}
+
+
+%********************************************************************************
+% Cross referencing from original document
+%****************************************
+\arImportReferences{Thesis}
+
+%% Force citation numbers to match the revised document
+%\newcommand{\arMatchCitationNumbers}{\input{Thesis.nocite}}
+\newcommand{\arMatchCitationNumbers}{}
+
+
+
+%********************************************************************************
+% Copy user added packages and commands from Thesis.tex
+%****************************************
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Start
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\pagestyle{arPageStyle}
+\thispagestyle{arPageStyleFirst}
+\arTitle{My Title}
+\arLegend
+\arMatchCitationNumbers
+
+Dear Editor and reviewers,
+
+Thank you for your efforts in reviewing this paper. We have addressed the comments to the best of our ability and updated the manuscript accordingly as detailed in this letter.
+
+Sincerely,
+
+Brandon Johns
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reviewer \#1}
+\RC Reviewer comments are prefixed with the command RC (reviewer comment). 
+
+My responses are formatted normally.
+
+\RCBlock{This reviewer comment is multiple paragraphs long.
+
+All subsequent paragraph are prefixed with RCC (reviewer comment continued).
+}
+
+aaa
+
+\RC This reviewer comment is multiple paragraphs long.
+
+\RCC All subsequent paragraph are prefixed with RCC (reviewer comment continued). 
+
+In response to your comment, I have now changed the manuscript, as follows.
+
+\begin{quote}[\secref{sec:mySection}]
+	This paragraph has mixed \DIFdel{removed} and \DIFadd{added} text.
+
+	\DIFadd{This paragraph has been added. This is placeholder text. This is placeholder text. This is placeholder text. This is placeholder text. This is placeholder text. This is placeholder text. This is placeholder text. This is placeholder text.}
+
+	\DIFdel{This paragraph has been removed. This is placeholder text. This is placeholder text. This is placeholder text. This is placeholder text. This is placeholder text. This is placeholder text. This is placeholder text. This is placeholder text.}
+
+	\begin{equation} %\tag{\ref{eq:myEquation}}
+		\DIFadd{y = x + 2}
+	\end{equation}
+
+	\begin{equation} %\tag{\ref{eq:myEquation}}
+		\DIFdel{y = x + 3}
+	\end{equation}
+\end{quote}
+
+
+\RC Change some parts of the abstract.
+
+I have now updated the abstract.
+
+\begin{quote}[Absctract]
+	This paragraph from the \DIFdel{summary} \DIFadd{abstract} has been \DIFdel{modified} \DIFadd{changed}.
+\end{quote}
+
+
+\RC Change the wording in the figure captions because I prefer this other word.
+
+I have now updated the figure caption.
+
+\begin{quote}[\figref{fig:Example1} caption]
+	The figure caption has been \DIFdel{modified} \DIFadd{changed}.
+\end{quote}
+
+
+\RC Figure x is difficult to interpret. Make it more clear.
+
+I have now updated the figure.
+
+\begin{quote}[\figref{fig:Example2}]
+	\centerline{\includegraphics[width=0.5\columnwidth,keepaspectratio]{Figures/monash-logo.pdf}}
+	Figure \ref{fig:Example2}: This is a very long caption that takes up multiple lines.
+\end{quote}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Reviewer \#11}
+\RC Reviewer comment.
+
+My response.
+
+
+\RC Reviewer comment.
+
+My response.
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\end{document}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% NOTES
+
+%\begin{quote}[Section 2.2]
+%    \begin{equation*} \tag{1} % Tag manually sets the equation number
+%    
+%    \end{equation*}
+%\end{quote}
+
+
