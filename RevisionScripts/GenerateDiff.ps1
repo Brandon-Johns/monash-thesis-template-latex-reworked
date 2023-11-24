@@ -77,12 +77,17 @@ $DiffOptions += '--preamble=RevisionScripts\DiffPreamble.tex'
 #$DiffOptions += '--graphics-markup=none'
 
 # Add to list of commands that latexdiff is allowed to markup
-#	Errors if you add "thesisUniversity,thesisTitle,thesisAuthor" due to use in the xmpdata.
+#	Errors if you add "thesisUniversity,thesisAuthor,thesisPublicationType,thesisLanguage,thesisTitle" due to use in the xmpdata.
 #	latexdiff struggles with table environments, particularly if you delete a whole row. Not much I can do.
+#	algorithm2e is not really generalisable. The user will need to allow the commands themselves as desired
 # safecmd means the command can appear inside of a DIFadd/DIFdel
 # textcmd means DIFadd/DIFdel can appear inside of the last argument of the command
+# context1cmd is weird
+# context2cmd means how add only
 $DiffOptions += '--append-safecmd="figref,tbref,eqref,chapref,secref,appref,algoref,algoRefLine,algoRefLines"'
-$DiffOptions += '--append-textcmd="thesisSchool,thesisDepartment,thesisGradtime,thesisDegree,thesisPriorDegrees,listOfAbbreviations,listOfConstants,listOfNomenclature"'
+$DiffOptions += '--append-textcmd="thesisSchool,thesisDepartment,thesisGradtime,thesisDegree,thesisPriorDegrees,listOfAbbreviations,listOfConstants,listOfNomenclature,copyrightnotice,abstract,Publicationslist,Declarationpublication,Declaration,ack"'
+$DiffOptions += '--append-context1cmd="captionbox"'
+$DiffOptions += '--append-context2cmd="thesisDP.*"'
 
 
 #********************************************************************************
@@ -112,8 +117,12 @@ foreach ($line in Get-Content -Path "${fileOld}.bibkeys") {
 }
 
 # Search diff file for a '\cite{}' inside of a '\DIFdel{}'
-# Case sensitive match
-$reCite = '\\DIFdel\{[^\}]*?' + '(?<citeCommand>\\cite\{(?<citeKeys>.+?)\})'
+#	This regex assumes that the cite will come before any '}', which is very limiting
+#		e.g. it would fail the case of '\DIFdel{\textbf{Hi} \cite{}}'
+#		But testing shows that latexdiff will always split this into '\DIFdel{\textbf{Hi}} \DIFdel{\cite{}}'
+#		So the failure case never happens yay.
+#	Case sensitive match
+$reCite = '(?<delCommand>\\DIFdel\{[^\}]*?(?<citeCommand>\\cite\{(?<citeKeys>.+?)\}))'
 while($diffFileContent -cmatch $reCite) {
 	# Split into array of individual keys
 	$keysInCite = $Matches.citeKeys -split ','
@@ -129,12 +138,20 @@ while($diffFileContent -cmatch $reCite) {
 	$FormattedCite = '[' + ($citeNumbersInCite -join ',') + ']'
 
 	# Replace the cite command with the formatted cite
-	$diffFileContent = $diffFileContent.Replace($Matches.citeCommand, $FormattedCite)
+	# Replace through the full capture string, as to not replace any cite not in a DIFdel
+	$FormattedDIFdel = $Matches.delCommand.Replace($Matches.citeCommand, $FormattedCite)
+	$diffFileContent = $diffFileContent.Replace($Matches.delCommand, $FormattedDIFdel)
 
-	Write-Host $Matches.citeKeys
-	Write-Host $FormattedCite
-	Write-Host ''
+	#Write-Host $Matches.delCommand
+	#Write-Host $Matches.citeKeys
+	#Write-Host $FormattedCite
+	#Write-Host ''
 }
+
+# Remove all the redundant diff commands because they can sometimes cause problems
+$reDif = '(?<!\\providecommand\{)\\(DIFaddbegin|DIFaddend|DIFdelbegin|DIFdelend|DIFmodbegin|DIFmodend|DIFaddbeginFL|DIFaddendFL|DIFdelbeginFL|DIFdelendFL)\b'
+$diffFileContent = $diffFileContent -replace $reDif, ''
+
 
 # Perform write
 $diffFileContent | Set-Content -Path "${fileDiff}.tex" -Encoding utf8

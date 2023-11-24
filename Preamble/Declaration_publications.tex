@@ -21,9 +21,14 @@ In the case of Chapters \ref{chap:article1} and \ref{chap:article2}, my contribu
 %%      If no co-authors, leave fields blank 
 \definecolor{thesisdark}{HTML}{1E1E1E}
 \definecolor{thesislight}{HTML}{EEEEEE}
-\newcommand{\formatVspace}[1]{\vspace{1ex}{#1}\vspace{1ex}}
-\newcommand{\formatH}[1]{\textcolor{thesislight}{\textbf{#1}}}
-\newcommand{\formatHv}[1]{\formatVspace{\textcolor{thesislight}{\textbf{#1}}}}
+\newcommand{\thesisDPFormatVspace}[1]{\vspace{1ex}{#1}\vspace{1ex}}
+\newcommand{\thesisDPFormatH}[1]{\textcolor{thesislight}{\textbf{#1}}}
+\newcommand{\thesisDPFormatHv}[1]{\thesisDPFormatVspace{\textcolor{thesislight}{\textbf{#1}}}}
+\newcommand{\thesisDPAuthorFirst}[1]{\Block[v-center]{1-1}{\thesisDPFormatVspace{#1}}}
+\newcommand{\thesisDPAuthor}[1]{\cline{5-6}&&&&\Block[v-center]{1-1}{\thesisDPFormatVspace{#1}}}
+\newcommand{\thesisDPAuthorYN}[1]{\Block[v-center]{1-1}{#1}\\}
+\newcommand{\thesisDP}[2]{\Block[v-center]{#1-1}{#2} &}
+\newcommand{\thesisDPv}[2]{\Block[v-center]{#1-1}{\thesisDPFormatVspace{#2}} &}
 \begin{center}
     \addtolength{\leftskip} {-1cm} %% Fix centering for when table is wider than \textwidth
     \addtolength{\rightskip}{-1cm} %% Fix centering for when table is wider than \textwidth
@@ -32,38 +37,34 @@ In the case of Chapters \ref{chap:article1} and \ref{chap:article2}, my contribu
     \begin{NiceTabular}[colortbl-like]
             {|c|p{30mm}|c|p{25mm}|p{37mm}|p{25mm}|}
         \hline
-        \Block[fill=thesisdark,v-center]{1-1}{\formatH{\makecell{Thesis\\Chapter}}} &
-        \Block[fill=thesisdark,v-center]{1-1}{\formatH{Publication Title}} &
-        \Block[fill=thesisdark,v-center]{1-1}{\formatH{Status}} &
-        \Block[fill=thesisdark,v-center]{1-1}{\formatH{Nature and \% Student Contribution}} &
-        \Block[fill=thesisdark,v-center]{1-1}{\formatHv{Co-author name(s) Nature and \% of Co-author's contribution}} &
-        \Block[fill=thesisdark,v-center]{1-1}{\formatH{Co-author(s), Monash student}}\\
+        \Block[fill=thesisdark,v-center]{1-1}{\thesisDPFormatH{\makecell{Thesis\\Chapter}}} &
+        \Block[fill=thesisdark,v-center]{1-1}{\thesisDPFormatH{Publication Title}} &
+        \Block[fill=thesisdark,v-center]{1-1}{\thesisDPFormatH{Status}} &
+        \Block[fill=thesisdark,v-center]{1-1}{\thesisDPFormatH{Nature and \% Student Contribution}} &
+        \Block[fill=thesisdark,v-center]{1-1}{\thesisDPFormatHv{Co-author name(s) Nature and \% of Co-author's contribution}} &
+        \Block[fill=thesisdark,v-center]{1-1}{\thesisDPFormatH{Co-author(s), Monash student}}\\
 
-        %% ACTION: The number of co-authors must be reflected in \Block[v-center]{4-1}
+        %% ACTION: The first argument of \thesisDP must be the total number of co-authors
         %%    i.e. change the number 4 to the number of co-authors
         %%    This defines how big the multi-row block is
         \hline
-        \Block[v-center]{4-1}{\ref{chap:article1}} &
-        \Block[v-center]{4-1}{\formatVspace{The Title of My First Published Article}} &
-        \Block[v-center]{4-1}{Published} &
-        \Block[v-center]{4-1}{(70\%)} &
-        \Block[v-center]{1-1}{\formatVspace{NAME: contribution~1, contribution~2 (10\%)}} & \Block[v-center]{1-1}{No}\\
-        \cline{5-6}
-        &&&&\Block[v-center]{1-1}{\formatVspace{NAME: contribution~1, contribution~2 (10\%)}} & \Block[v-center]{1-1}{No}\\
-        \cline{5-6}
-        &&&&\Block[v-center]{1-1}{\formatVspace{NAME: contribution~1 (5\%)}} & \Block[v-center]{1-1}{No}\\
-        \cline{5-6}
-        &&&&\Block[v-center]{1-1}{\formatVspace{NAME: contribution~1 (5\%)}} & \Block[v-center]{1-1}{No}\\
+        \thesisDP{4}{\ref{chap:article1}}
+        \thesisDPv{4}{The Title of My First Published Article}
+        \thesisDP{4}{Published}
+        \thesisDP{4}{(70\%)}
+        \thesisDPAuthorFirst{NAME: contribution~1, contribution~2 (10\%)} & \thesisDPAuthorYN{No}
+        \thesisDPAuthor{NAME: contribution~1, contribution~2 (10\%)} & \thesisDPAuthorYN{No}
+        \thesisDPAuthor{NAME: contribution~1 (5\%)} & \thesisDPAuthorYN{No}
+        \thesisDPAuthor{NAME: contribution~1 (5\%)} & \thesisDPAuthorYN{No}
 
-        %% ACTION: The number of co-authors must be reflected in \Block[v-center]{2-1}
+        %% ACTION: The first argument of \thesisDP must be the total number of co-authors
         \hline
-        \Block[v-center]{2-1}{\ref{chap:article2}} &
-        \Block[v-center]{2-1}{\formatVspace{The Title of My Second Published Article}} &
-        \Block[v-center]{2-1}{In Press} &
-        \Block[v-center]{2-1}{(80\%)} &
-        \Block[v-center]{1-1}{\formatVspace{NAME: contribution~1, contribution~2 (10\%)}} & \Block[v-center]{1-1}{No}\\
-        \cline{5-6}
-        &&&&\Block[v-center]{1-1}{\formatVspace{NAME: contribution~1, contribution~2 (10\%)}} & \Block[v-center]{1-1}{No}\\
+        \thesisDP{2}{\ref{chap:article2}}
+        \thesisDPv{2}{The Title of My Second Published Article}
+        \thesisDP{2}{In Press}
+        \thesisDP{2}{(80\%)}
+        \thesisDPAuthorFirst{NAME: contribution~1, contribution~2 (10\%)} & \thesisDPAuthorYN{No}
+        \thesisDPAuthor{NAME: contribution~1, contribution~2 (10\%)} & \thesisDPAuthorYN{No}
         \hline
     \end{NiceTabular}
 \end{center}
