@@ -52,6 +52,10 @@ If(-not (Test-Path "${fileMain}.tex")) { throw "Can't find main file" }
 If(-not (Test-Path "${fileMain}.bbl")) { throw "Can't find bbl file. Compile ${fileMain}.tex, then try again" }
 
 
+$fileFlat_ParentDir = Split-Path -Path "${fileFlat}.tex" -Parent
+If(-not (Test-Path $fileFlat_ParentDir)) { New-Item -Path $fileFlat_ParentDir -ItemType Directory }
+
+
 #********************************************************************************
 # AUTOMATED - Generate flat
 #****************************************

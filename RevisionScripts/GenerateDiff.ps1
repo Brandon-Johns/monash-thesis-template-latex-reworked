@@ -70,10 +70,20 @@ $fileNew = 'Thesis'
 # Filename for output
 $fileDiff = 'Thesis_diff'
 
+# Optional arguments passed to latexdiff
 $DiffOptions = @()
 $DiffOptions += '--flatten'
 $DiffOptions += '--preamble=RevisionScripts\DiffPreamble.tex'
 #$DiffOptions += '--graphics-markup=none'
+
+# Add to list of commands that latexdiff is allowed to markup
+#	Errors if you add "thesisUniversity,thesisTitle,thesisAuthor" due to use in the xmpdata.
+#	latexdiff struggles with table environments, particularly if you delete a whole row. Not much I can do.
+# safecmd means the command can appear inside of a DIFadd/DIFdel
+# textcmd means DIFadd/DIFdel can appear inside of the last argument of the command
+$DiffOptions += '--append-safecmd="figref,tbref,eqref,chapref,secref,appref,algoref,algoRefLine,algoRefLines"'
+$DiffOptions += '--append-textcmd="thesisSchool,thesisDepartment,thesisGradtime,thesisDegree,thesisPriorDegrees,listOfAbbreviations,listOfConstants,listOfNomenclature"'
+
 
 #********************************************************************************
 # AUTOMATED
