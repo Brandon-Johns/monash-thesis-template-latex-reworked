@@ -3,13 +3,14 @@
 %% This version is not directly compatible with the previous versions. The whole set of files go together
 %%
 %% Based off: https://github.com/mschroen/review_response_letter/blob/master/templates/preamble.tex
+%% By: Martin Schrön
 %% License: GNU General Public License v3.0
 %%
 %% Key changes
 %%   Made into a class
 %%   Restyled
 %%   Removed command AR for author response. Now, just use bare paragraphs
-%%   Added command RCC for reviewer comment continued
+%%   Added commands RCC, RCBlock, and RCEnv for reviewer comments
 %%   Added headings on quote boxes
 %%   Added support to cross referencing, using \ref{} on labels defined in the original document
 %%   Added support for keeping same citation numbers
@@ -42,23 +43,23 @@
 %%###############################################################################
 %% Cross referencing from original document
 %%#######################################
-% Section adapted from
-% https://www.overleaf.com/learn/how-to/Cross_referencing_with_the_xr_package_in_Overleaf
-% by cyberSingularity at http://tex.stackexchange.com/a/69832/226
+%% Section adapted from
+%% https://www.overleaf.com/learn/how-to/Cross_referencing_with_the_xr_package_in_Overleaf
+%% by cyberSingularity at http://tex.stackexchange.com/a/69832/226
 
 \usepackage{xr}
-\newcommand*{\arAddFileDependency}[1]{% argument=file name and extension
-\typeout{(#1)}% latexmk will find this if recorder=0
-% however, in that case, it will ignore #1 if it is a .aux or 
-% .pdf file etc and it exists! If it doesn't exist, it will appear 
-% in the list of dependents regardless)
-%
-% Write the following if you want it to appear in \listfiles 
-% --- although not really necessary and latexmk doesn't use this
-%
+\newcommand*{\arAddFileDependency}[1]{%% argument=file name and extension
+\typeout{(#1)}%% latexmk will find this if recorder=0
+%% however, in that case, it will ignore #1 if it is a .aux or 
+%% .pdf file etc and it exists! If it doesn't exist, it will appear 
+%% in the list of dependents regardless)
+%%
+%% Write the following if you want it to appear in \listfiles 
+%% --- although not really necessary and latexmk doesn't use this
+%%
 \@addtofilelist{#1}
-%
-% latexmk will find this message if #1 doesn't exist (yet)
+%%
+%% latexmk will find this message if #1 doesn't exist (yet)
 \IfFileExists{#1}{}{\typeout{No file #1.}}
 }
 
@@ -74,9 +75,11 @@
 %%#######################################
 \usepackage[
 	a4paper,
-	margin=2cm,
-	includeheadfoot, %% Contain within header and footer within the margins
-	headheight=15pt,
+	margin=20mm,
+	ignorehead,
+	includefoot, %% Contain within header and footer within the margins
+	footskip=15pt,
+	headheight=15pt, %% Unused, but fancyhdr gives warnings without this
 ]{geometry}
 
 %% Paragraph styles
@@ -86,8 +89,9 @@
 %% Section title styles
 %% SYNTAX: \titleformat{command} [shape] {format} {label text} {label to title hSep} {code before} [code after]
 %% SYNTAX: \titlespacing{command} {left} {before} {after} [right]
-\usepackage{titlesec}
+\usepackage[nobottomtitles]{titlesec}
 \titleformat{\section}{\normalfont\LARGE\color{arPurple}\bfseries}{}{0em}{}
+\renewcommand{\bottomtitlespace}{8\baselineskip} %% Minimum distance between a section heading and the bottom of a page
 
 %% Header and footer formatting
 %% The titlesec and fancyhdr work together
@@ -136,7 +140,7 @@
 	\end{minipage}\endMakeFramed\end{minipage}\par
 }
 
-
+% Reviewer comment environment
 \usepackage{mdframed}
 \newmdenv[
 	topline=false,
@@ -153,14 +157,14 @@
 	linewidth=4pt,
 	linecolor=arBlue,
 	fontcolor=arBlue,
-]{arSideLine}
+]{RCEnv}
 
 \newmdenv[
 	topline=false,
 	bottomline=false,
 	rightline=false,
 	leftline=true,
-	skipabove=0, %% Only difference from arSideLine
+	skipabove=0, %% Only difference from RCEnv
 	skipbelow=0,
 	innertopmargin=0pt,
 	innerbottommargin=0pt,
@@ -170,7 +174,7 @@
 	linewidth=4pt,
 	linecolor=arBlue,
 	fontcolor=arBlue,
-]{arSideLineRCC}
+]{RCCEnv}
 
 
 %%###############################################################################
@@ -198,19 +202,19 @@
 %% Reviewer comment
 %% SYNTAX: \RC text up to end of paragraph
 \long\def\RC#1\par{%%
-	\begin{arSideLine}#1\end{arSideLine}\par%%
+	\begin{RCEnv}#1\end{RCEnv}\par%%
 }
 %% Reviewer comment continued (if 2 in a row with no author text in between)
 %% SYNTAX: \RCC text up to end of paragraph
 \long\def\RCC#1\par{%%
-	{\begin{arSideLineRCC}\vspace{1\baselineskip}#1\end{arSideLineRCC}}\par%%
+	{\begin{RCCEnv}\vspace{1\baselineskip}#1\end{RCCEnv}}\par%%
 }
 
 % Or use this command (with normal syntax) to enclose a block of text
 \newcommand{\RCBlock}[1]{
-	\begin{arSideLine}
+	\begin{RCEnv}
 		#1
-	\end{arSideLine}
+	\end{RCEnv}
 }
 
 

@@ -2,12 +2,12 @@
 Compliant with the Monash University requirements.
 
 Good for both
-- Traditional thesis
+- Traditional thesis.
 - Thesis including published works.
 
 The complied PDF looks like [this](./Thesis.pdf).
 
-Also included, is a template to respond to examiner comments.
+Also included, is a template to respond to examiner comments. The compiled PDF looks like [this](./response1.pdf).
 
 
 ## My Changes
@@ -71,6 +71,20 @@ Starting from the version of your thesis, as it was submitted for examination
 7. Compile `response1.tex`
 
 Return to step 3 as required, but be sure to follow through all subsequent steps to 3-7 to regenerate everything.
+
+`Thesis_diff.tex` is a stand-alone document which can also be compiled and provided to the examiners.
+
+Not that latexdiff is not perfect, and it defaults to skipping markup in environments and commands that it does not know. You can register more commands in `RevisionScripts\GenerateDiff.ps1`, using the `$DiffOptions` variable. This will require some trial and error.
+
+
+## License
+The original thesis class and template was created by Steve R. Gunn, and has since been modified by many. While no specific license was provided with the received files, the latest version [1](https://www.sunilpatel.co.uk/other-stuff/thesis-template/), [2](https://www.latextemplates.com/template/masters-doctoral-thesis) is distributed under the [Creative Commons CC BY-NC-SA 3.0 license](https://creativecommons.org/licenses/by-nc-sa/3.0/). Interpret this as you will...
+
+The responding to examiner comments class and template are based off [the work of Martin Schrön](https://github.com/mschroen/review_response_letter/blob/master/templates/preamble.tex), and are distributed under the [GNU General Public License v3.0](https://www.gnu.org/licenses/gpl-3.0.en.html).
+
+The powershell scripts are distributed under the [BSD-3-Clause License](https://opensource.org/license/bsd-3-clause/). Copyright (c) 2023 Brandon Johns.
+
+The Monash University logo and ORCIDiD icon are subject to the restrictions applied by the respective organisations.
 
 
 ## Source Code
