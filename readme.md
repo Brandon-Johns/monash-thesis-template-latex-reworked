@@ -21,7 +21,7 @@ Key changes
 - Updated to modern packages which give better control: vmargin->geometry, natbib->biblatex, etc.
 - Restyled headings, footers, contents, line/paragraph spacing, float placement
 - Disabled hyphenation
-- Removed double-sided-page mode (sorry, but it's too complicated for me to bother with)
+- Remade twoside mode
 - Reorganised the files and added comments
 - Made the output PDF/A-2u compliant (well, somewhat compliant: figures and maths are like ugh)
 - Added ability to restore hyperlinks within the embedded pdfs. Not fully automatic- the user has to help it along
@@ -74,7 +74,7 @@ Return to step 3 as required, but be sure to follow through all subsequent steps
 
 `Thesis_diff.tex` is a stand-alone document which can also be compiled and provided to the examiners.
 
-Not that latexdiff is not perfect, and it defaults to skipping markup in environments and commands that it does not know. You can register more commands in `RevisionScripts\GenerateDiff.ps1`, using the `$DiffOptions` variable. This will require some trial and error.
+Note that latexdiff is not perfect, and it defaults to skipping markup in environments and commands that it does not know. You can register more commands in `RevisionScripts\GenerateDiff.ps1`, using the `$DiffOptions` variable. This will require some trial and error.
 
 
 ## License
