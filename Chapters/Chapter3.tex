@@ -16,15 +16,23 @@ List of Amendments to \cite{example3}
 \end{itemize}
 
 %% The following embedded document represents your published article.
-\includepdf[pages={-},pagecommand={},offset=0mm 10mm]{MyPublishedArticle1.pdf}
+\includepdf[pages={-},pagecommand={},offset=\includepdfOffsetTwoside{} 10mm]{MyPublishedArticle1.pdf}
 
 %% NOTE 1
 %% The article is being embedded into an A4 document.
 %% If the article is not A4, then it will be shrunk to fit and centred in the page.
-%% The offset parameter can move from the default position
-%% => If the thesis footer overlaps the included pdf, then try changing the scale and offset
+%% \includepdf does not obey the document margins.
+%% Scale and offset from the default position must be done manually
+%% The arguments of offset are "offset=<horizontal offset> <vertical offset>"
 %% e.g.
 %% \includepdf[pages={-},pagecommand={},scale=0.95,offset=0mm 5mm]{MyPublishedArticle1.pdf}
+
+%% Horizontal offset
+%%    When using the option twoside, the margins are not symmetrical
+%%    The command  "\includepdfOffsetTwoside{}" outputs the offset  to centre the pdf within the margins
+%%    It automatically detects if twoside is enabled, and otherwise outputs an offset of "0mm"
+%% Vertical offset
+%%    If the thesis footer overlaps the included pdf, then you should change the scale and vertical offset
 
 %% NOTE 2
 %% By using the package `pdfpages' to embed this pdf into the thesis, all the hyperlinks become no longer clickable.

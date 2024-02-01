@@ -1,5 +1,5 @@
 %%###############################################################################
-%% Modified by Brandon Johns in 2023
+%% Modified by Brandon Johns in 2023/2024
 %% This version is not directly compatible with the previous versions. The whole set of files go together
 %%
 %% Key changes
@@ -8,7 +8,7 @@
 %%   Updated to modern packages which give better control: vmargin->geometry, natbib->biblatex, etc.
 %%   Restyled headings, footers, contents, line/paragraph spacing, float placement
 %%   Disabled hyphenation
-%%   Removed double-sided-page mode (sorry, but it's too complicated for me to bother with)
+%%   Remade twoside mode
 %%   Reorganised this file and added comments
 %%   Made the output PDF/A-2u compliant (well, somewhat compliant: figures and maths are like ugh)
 %%   Added ability to restore hyperlinks within the embedded pdfs. Not fully automatic- the user has to help it along
@@ -34,12 +34,35 @@
 %%###############################################################################
 \NeedsTeXFormat{LaTeX2e}[1996/12/01]
 \ProvidesClass{Thesis}[2023/08/25 v2.0 LaTeX document class]
-\LoadClass[a4paper,oneside,12pt]{book}
 
+\newif\if@thesistwoside
+\@thesistwosidefalse %% Default to false
+\DeclareOption{twoside}{\@thesistwosidetrue}
+\DeclareOption{oneside}{\@thesistwosidefalse}
+\if@thesistwoside
+  \PassOptionsToClass{twoside}{book}
+\else
+  \PassOptionsToClass{oneside}{book}
+\fi
+\ProcessOptions\relax
+
+%% openany (when used with twoside) allows chapters to start on (left or right) i.e. no blank pages are inserted
+\LoadClass[a4paper,openany,12pt]{book}
+
+
+%%###############################################################################
+%% Core packages
+%%#######################################
 \usepackage[utf8]{inputenc}
 \usepackage[australian]{babel}
 
+%% Self-important packages
+%% When using microtype, setspace should be loaded before hyperref
+\usepackage{microtype} %% Subtle adjustments to improve readability
+\usepackage{setspace} %% Change Linespacing
+
 %% PDF/A compliance
+%% Package pdfx automatically loads hyperref
 \usepackage{colorprofiles}
 \usepackage[a-2u,mathxmp]{pdfx}
 
@@ -51,20 +74,45 @@
 \definecolor{thesisblue}{RGB}{0,0,192}  %% Colour for hyperlinks
 \definecolor{thesisdarkgrey}{RGB}{25,25,25}  %% Colour for footer
 
+%%###############################################################################
+%% User commands: pagintation, margins, etc
+%%#######################################
+%% (twoside) Don't insert blank page after titlepage
+%%   Based on definition, per the package documentation "7.2.4 Front Matter, Main Matter, and Back Matter"
+%%   Changes \cleardoublepage to \clearpage
+%%   DO NOT REDEFINE \mainmatter because changes to page numbering force resets the page to a right-page
+\renewcommand{\frontmatter}{\clearpage\@mainmatterfalse\pagenumbering{roman}}
+
+%% Use with pdfpages \includepdf[..., offset=\includepdfOffsetTwoside{} 0mm, ...]
+%% When using the option twoside, this aligns included pdfs to the margins
+\newcommand{\includepdfOffsetTwoside}{0mm} %% Value if oneside
+\if@thesistwoside
+    \renewcommand{\includepdfOffsetTwoside}{5mm} %% Value if twoside = 1/2 difference in margins
+\fi
+
 
 %%###############################################################################
 %% Page dimensions, margins, line spacing, header, footer, headings
 %%#######################################
-\usepackage{setspace}
-\usepackage[
-  a4paper,
-  hmargin=25mm,
-  vmargin=15mm,
-  includeheadfoot, %% Contain within header and footer within the margins
-  headheight=15pt,
-  %nofoot,
-  %nohead,
-]{geometry}
+\if@thesistwoside
+  \usepackage[
+    a4paper,
+    twoside,
+    inner=25mm, %% Inner margin. Changes must be reflected in \includepdfOffsetTwoside
+    outer=15mm, %% Outer margin. Changes must be reflected in \includepdfOffsetTwoside
+    vmargin=15mm,
+    includeheadfoot, %% Contain within header and footer within the margins
+    headheight=15pt
+  ]{geometry}
+\else
+  \usepackage[
+    a4paper,
+    hmargin=25mm,
+    vmargin=15mm,
+    includeheadfoot, %% Contain within header and footer within the margins
+    headheight=15pt
+  ]{geometry}
+\fi
 
 %% Line and paragraph spacing
 \raggedbottom
@@ -101,7 +149,11 @@
   \fancyhf{}%% Clear header and footer
   \let\headrule\null\relax%%
   \let\footrule\null\relax%%
-  \fancyfoot[R]{\footnotesize \thepage}%%
+  \if@thesistwoside%%
+    \fancyfoot[LE,RO]{\footnotesize \thepage}%%
+  \else%%
+    \fancyfoot[R]{\footnotesize \thepage}%%
+  \fi%%
 }
 
 \fancypagestyle{core}[fancydefault]{%%
@@ -109,8 +161,14 @@
   \let\headrule\null\relax%%
   \let\footrule\defaultfootrule%%
   \renewcommand{\footrulewidth}{0.4pt}%%
-  \fancyfoot[R]{\footnotesize Page\ \thepage}%%
-  \fancyfoot[L]{\footnotesize \rightmark\leftmark}%% Yes, I switch left and right because latex is dumb
+  \if@thesistwoside%%
+    \fancyfoot[LE,RO]{\footnotesize \thepage}%%
+    \fancyfoot[RE]{\footnotesize }%%
+    \fancyfoot[LO]{\footnotesize \rightmark\ $\vert$\ \leftmark}%% Yes, I mix up left and right because latex is dumb
+  \else%%
+    \fancyfoot[R]{\footnotesize Page\ \thepage}%%
+    \fancyfoot[L]{\footnotesize \rightmark\ $\vert$\ \leftmark}%% Yes, I switch left and right because latex is dumb
+  \fi%%
   %% Chapter heading formatting
   \titleformat{\chapter}[hang]{\normalfont\huge\bfseries}{\thechapter}{20pt}{\Huge}[%%
     %% Lengths for double rule: r1=1.6pt, gap=1.6pt, r2=0.4pt
@@ -125,7 +183,12 @@
 \fancypagestyle{app}[appfirst]{}
 
 \fancypagestyle{bibfirst}[core]{%%
-  \fancyfoot[L]{\footnotesize \nouppercase\leftmark}%%
+  \if@thesistwoside%%
+    \fancyfoot[RE]{\footnotesize }%%
+    \fancyfoot[LO]{\footnotesize \nouppercase\leftmark}%%
+  \else
+    \fancyfoot[L]{\footnotesize \nouppercase\leftmark}%%
+  \fi
 }
 \fancypagestyle{bib}[bibfirst]{}
 
@@ -141,12 +204,14 @@
 \clubpenalty=9999 %% Almost no orphans at top of page.
 \interfootnotelinepenalty=9999 %% Almost never break footnotes.
 
-\emergencystretch 3em %% Having disabled hyphenation, drop long words to the next line instead of overflowing
-\hfuzz=2.0em %% Suppress warnings for \hbox overflow ("overfull \hbox") by up to given length
+\emergencystretch 4em %% Having disabled hyphenation, drop long words to the next line instead of overflowing
+\hfuzz=5mm %% Suppress warnings for \hbox overflow ("overfull \hbox") by up to given length
 \hbadness=4000 %% range=[0,10000] Suppress warnings for underfull \hbox up to given badness level
 
 \setlength{\footnotesep}{1\baselineskip} %% Space between footnotes
 \setlength{\skip\footins}{1\baselineskip} %% Space between the text body and the footnotes
+
+\usepackage[bottom]{footmisc} %% Glue footnotes to the bottom of the page
 
 %% Hyperlinks
 \hypersetup{pdfpagemode={UseOutlines},pdfstartview={FitV},pdfpagelayout={SinglePage},unicode,
@@ -211,7 +276,7 @@
 \usepackage{textcomp, gensymb} %% Symbol: \degree
 \usepackage{mathtools} %% Symbol: \coloneqq
 
-%% TODO: This was in the old version of the class, but is not tested in this version
+%% This was in the old version of the class, but is not tested in this version
 %\usepackage{amsthm}
 %\theoremstyle{plain}
 %\newtheorem{example}{Example}[chapter]
@@ -260,7 +325,7 @@
 \usepackage{threeparttable} %% Use if needing table notes (footnotes for tables)
 \usepackage{makecell} %% Line breaks in tables with \makecell
 
-%% TODO: This was in the old version of the class, but is not tested in this version
+%% This was in the old version of the class, but is not tested in this version
 %% Display formatted code blocks
 %\usepackage{listings}
 %\lstset{captionpos=b,
@@ -322,7 +387,7 @@
 }
 
 \renewcommand{\maketitle}{
-  \thispagestyle{empty}
+  \newgeometry{vmargin=15mm,hmargin=25mm,includeheadfoot,headheight=15pt} %% (twoside) centre title page, ignoring binding margins
   \begin{titlepage}
     \null\vfil
     \begin{center}
@@ -351,6 +416,7 @@
     \vfil\null
   \end{titlepage}
   \clearpage
+  \restoregeometry
 }
 
 
@@ -364,11 +430,35 @@
 \addtolength{\tocLineSpaceSubtract}{\tocLineSpace\baselineskip}
 \addtolength{\tocLineSpaceSubtract}{0.8pt} %% Close enough to matching line spacing of subsections
 
+ %% (twoside) even pages are always left-pages
+ %%   I wish to place this on the back of the title page, so it should be even
+ %%   But roman numerals have no zero, so it'd look dumb in the TOC
+ %%   So I set the page number to 0, and don't include it in the TOC
 \newcommand{\copyrightnotice}[1]{
-  \addtotoc{Copyright notice}
+  \thispagestyle{empty} %% No header/footer
+  \setcounter{page}0 %% Set page number to 0
+  %\addtocontents{toc}{\vspace*{\tocLineSpaceSubtract}}
+  %\addtotoc{Copyright notice}
   {\large \bf{Copyright~notice}}\par
   {\normalsize #1}
   \vfil\vfil\null\clearpage
+  \frontmatter %% Begin Roman style (i, ii, iii, iv...) page numbering
+}
+
+%% The Dedication page is not an standard Monash preliminary page. Use it only with authorisation from the graduate research office
+\newcommand{\Dedication}[1]{
+  \addtocontents{toc}{\vspace*{\tocLineSpaceSubtract}}
+  \addtotoc{Dedication}
+  \vspace*{\fill}
+  \begin{center}
+    \begin{minipage}{\textwidth}
+      \begin{center}
+        {\itshape #1}
+      \end{center}
+    \vspace{21pt} % Used trial and error to find the centre the text. Probably font dependent, but whatever
+    \end{minipage}
+  \end{center}
+  \vspace*{\fill}\clearpage
 }
 
 \newcommand{\abstract}[1]{
@@ -444,6 +534,7 @@
   \begin{spacing}{\tocLineSpace}
     \setlength{\parskip}{0pt}
     \chapter*{\contentsname}
+    \vspace*{-\tocLineSpaceSubtract} %% Undo the subtract for the first entry
     \@starttoc{toc}
   \end{spacing}
   \clearpage

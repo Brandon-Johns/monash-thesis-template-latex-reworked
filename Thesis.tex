@@ -16,7 +16,11 @@
 %%****************************************
 %% Using the class Thesis.cls, which is included with this template
 %% Thesis.cls has been modified by many, based on the ECS Thesis style originally by Steve Gunn
-\documentclass{Thesis}
+
+%% Options:
+%%  "oneside" - (default) for online version
+%%  "twoside" - for printed/bound version
+\documentclass[]{Thesis}
 
 %% Font Choice
 %\usepackage[lining]{nunito}
@@ -69,7 +73,7 @@
 %% (STAGE 2) Insert links
 %% newpax requires the package pdfmanagement-testphase
 %% But this is not compatible with the pdfx package
-%% => Using the output of nexpax with pax
+%% => Using the output of newpax with pax
 %% The following is copied from the newpax documentation
 \ifluatex
     \usepackage{pdftexcmds}
@@ -103,6 +107,9 @@
 %%****************************************
 \usepackage[style=numeric, sorting=none, isbn=false, url=true,sortcites=true,maxbibnames=99]{biblatex}
 \renewcommand*{\bibfont}{\small}
+
+%% Prevent paragraph break in bib https://tex.stackexchange.com/a/43275
+\patchcmd{\bibsetup}{\interlinepenalty=5000}{\interlinepenalty=10000}{}{}
 
 %% Prevent "et al." in \fullcite https://tex.stackexchange.com/a/267089
 \preto\fullcite{\AtNextCite{\defcounter{maxnames}{99}}}
@@ -149,7 +156,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Header/footer style
-\frontmatter %% Begin Roman style (i, ii, iii, iv...) page numbering
 \assignpagestyle{\chapter}{preliminarypages}
 \pagestyle{preliminarypages}
 
@@ -207,7 +213,7 @@
 \mainmatter %% Begin normal, numeric (1,2,3...) page numbering
 \assignpagestyle{\chapter}{corefirst}
 \pagestyle{core}
-\renewcommand{\chaptermark}[1]{ \markboth{\ $\vert$\ #1}{\thesubsection} }
+\renewcommand{\chaptermark}[1]{ \markboth{#1}{\thesubsection} }
 \renewcommand{\sectionmark}[1]{ \markright{\thesubsection} }
 \renewcommand{\subsectionmark}[1]{ \markright{\thesubsection} }
 \renewcommand{\subsubsectionmark}[1]{}
